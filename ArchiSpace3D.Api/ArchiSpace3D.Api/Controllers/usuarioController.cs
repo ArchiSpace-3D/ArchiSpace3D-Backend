@@ -1,14 +1,11 @@
 ﻿using ArchiSpace3D.Api.Models;
 using ArchiSpace3D.Api.Service;
-using ArchiSpace3D.Api.Util;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArchiSpace3D.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class usuarioController : ControllerBase
     {
         private readonly usuarioServiceImpl _usuarioService;
@@ -16,13 +13,6 @@ namespace ArchiSpace3D.Api.Controllers
         public usuarioController(usuarioServiceImpl usuarioService)
         {
             _usuarioService = usuarioService;
-        }
-
-       
-        private IActionResult? ValidarPropiaCuenta(int idUsuarioObjetivo)
-        {
-            var idUsuario = User.GetIdUsuario();
-            return idUsuarioObjetivo == idUsuario ? null : Forbid();
         }
 
         [HttpGet]
@@ -34,14 +24,10 @@ namespace ArchiSpace3D.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var noPermitido = ValidarPropiaCuenta(id);
-            if (noPermitido is not null) return noPermitido;
-
             var usuario = await _usuarioService.GetByIdAsync(id);
             return usuario is null ? NotFound() : Ok(usuario);
         }
 
-        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Registrar([FromBody] Usuario usuario)
         {
@@ -56,14 +42,28 @@ namespace ArchiSpace3D.Api.Controllers
             }
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            var usuario = await _usuarioService.LoginAsync(request.Email, request.Contrasena);
+            if (usuario == null)
+            {
+                return Unauthorized("Credenciales inválidas.");
+            }
+
+            // NOTE: Here you would normally generate a JWT token.
+            // For now, we return the user object (excluding the hash).
+            usuario.Contrasena = string.Empty;
+            return Ok(usuario);
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> Actualizar(int id, [FromBody] Usuario usuario)
         {
             if (id != usuario.Idusuario)
+            {
                 return BadRequest("El id de la URL no coincide con el del body.");
-
-            var noPermitido = ValidarPropiaCuenta(id);
-            if (noPermitido is not null) return noPermitido;
+            }
 
             var actualizado = await _usuarioService.ActualizarAsync(usuario);
             return actualizado ? NoContent() : NotFound();
@@ -72,9 +72,6 @@ namespace ArchiSpace3D.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Eliminar(int id)
         {
-            var noPermitido = ValidarPropiaCuenta(id);
-            if (noPermitido is not null) return noPermitido;
-
             var eliminado = await _usuarioService.EliminarAsync(id);
             return eliminado ? NoContent() : NotFound();
         }
