@@ -1,0 +1,33 @@
+# Archivos de usuario
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Carpetas de compilación
+bin/
+obj/
+out/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# Archivos temporales y de caché
+*.cache
+*.err
+*.log
+*.jfm
+
+# Archivos del sistema
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# Carpetas de VS y VS Code
+.vs/
+.vscode/
