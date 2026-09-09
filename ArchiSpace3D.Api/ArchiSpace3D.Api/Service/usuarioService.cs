@@ -14,18 +14,12 @@ namespace ArchiSpace3D.Api.Service
 
         public async Task<IEnumerable<Usuario>> GetAllAsync()
         {
-            var usuarios = await _usuarioDao.GetAllAsync();
-            foreach (var usuario in usuarios)
-            {
-                LimpiarDatosSensibles(usuario);
-            }
-            return usuarios;
+            return await _usuarioDao.GetAllAsync();
         }
 
         public async Task<Usuario?> GetByIdAsync(int id)
         {
-            var usuario = await _usuarioDao.GetByIdAsync(id);
-            return usuario is null ? null : LimpiarDatosSensibles(usuario);
+            return await _usuarioDao.GetByIdAsync(id);
         }
 
         public async Task<Usuario> RegistrarAsync(Usuario usuario)
@@ -46,8 +40,23 @@ namespace ArchiSpace3D.Api.Service
             // Regla de negocio: la contraseña nunca se guarda en texto plano
             usuario.Contrasena = BCrypt.Net.BCrypt.HashPassword(usuario.Contrasena);
 
-            var creado = await _usuarioDao.CreateAsync(usuario);
-            return LimpiarDatosSensibles(creado);
+            return await _usuarioDao.CreateAsync(usuario);
+        }
+
+        public async Task<Usuario?> LoginAsync(string email, string password)
+        {
+            var usuario = await _usuarioDao.GetByEmailAsync(email);
+            if (usuario == null)
+            {
+                return null;
+            }
+
+            if (!BCrypt.Net.BCrypt.Verify(password, usuario.Contrasena))
+            {
+                return null;
+            }
+
+            return usuario;
         }
 
         public async Task<bool> ActualizarAsync(Usuario usuario)
@@ -58,18 +67,6 @@ namespace ArchiSpace3D.Api.Service
         public async Task<bool> EliminarAsync(int id)
         {
             return await _usuarioDao.DeleteAsync(id);
-        }
-
-        // NUEVO: se llama antes de devolver CUALQUIER Usuario hacia afuera del
-        // Service. Reutiliza el mismo modelo Usuario (nada de DTO nuevo) --
-        // solo vacía los campos que nunca deben viajar en una respuesta HTTP:
-        // el hash de la contraseña y los datos de recuperación de cuenta.
-        private static Usuario LimpiarDatosSensibles(Usuario usuario)
-        {
-            usuario.Contrasena = string.Empty;
-            usuario.Tokenrecuperacion = null;
-            usuario.Expiraciontoken = null;
-            return usuario;
         }
     }
 }

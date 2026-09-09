@@ -1,0 +1,133 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|c:\\users\\pc_02\\desktop\\archispace3d-backend\\archispace3d.api\\archispace3d.api\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|solutionrelative:archispace3d.api\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|c:\\users\\pc_02\\desktop\\archispace3d-backend\\archispace3d.api\\archispace3d.api\\service\\usuarioserviceimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|solutionrelative:archispace3d.api\\service\\usuarioserviceimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|c:\\users\\pc_02\\desktop\\archispace3d-backend\\archispace3d.api\\archispace3d.api\\service\\usuarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|solutionrelative:archispace3d.api\\service\\usuarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|c:\\users\\pc_02\\desktop\\archispace3d-backend\\archispace3d.api\\archispace3d.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|solutionrelative:archispace3d.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|c:\\users\\pc_02\\desktop\\archispace3d-backend\\archispace3d.api\\archispace3d.api\\models\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|solutionrelative:archispace3d.api\\models\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|c:\\users\\pc_02\\desktop\\archispace3d-backend\\archispace3d.api\\archispace3d.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|solutionrelative:archispace3d.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|c:\\users\\pc_02\\desktop\\archispace3d-backend\\archispace3d.api\\archispace3d.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|solutionrelative:archispace3d.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "LoginRequest.cs",
+              "DocumentMoniker": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Models\\LoginRequest.cs",
+              "RelativeDocumentMoniker": "ArchiSpace3D.Api\\Models\\LoginRequest.cs",
+              "ToolTip": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Models\\LoginRequest.cs",
+              "RelativeToolTip": "ArchiSpace3D.Api\\Models\\LoginRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-07T12:25:16.144Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "usuarioServiceImpl.cs",
+              "DocumentMoniker": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Service\\usuarioServiceImpl.cs",
+              "RelativeDocumentMoniker": "ArchiSpace3D.Api\\Service\\usuarioServiceImpl.cs",
+              "ToolTip": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Service\\usuarioServiceImpl.cs",
+              "RelativeToolTip": "ArchiSpace3D.Api\\Service\\usuarioServiceImpl.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-07T12:24:51.222Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "usuarioService.cs",
+              "DocumentMoniker": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Service\\usuarioService.cs",
+              "RelativeDocumentMoniker": "ArchiSpace3D.Api\\Service\\usuarioService.cs",
+              "ToolTip": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Service\\usuarioService.cs",
+              "RelativeToolTip": "ArchiSpace3D.Api\\Service\\usuarioService.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAADwv0cAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-07T12:24:20.727Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "usuarioController.cs",
+              "DocumentMoniker": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Controllers\\usuarioController.cs",
+              "RelativeDocumentMoniker": "ArchiSpace3D.Api\\Controllers\\usuarioController.cs",
+              "ToolTip": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Controllers\\usuarioController.cs",
+              "RelativeToolTip": "ArchiSpace3D.Api\\Controllers\\usuarioController.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAkwCAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-07T12:23:39.04Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\appsettings.json",
+              "RelativeDocumentMoniker": "ArchiSpace3D.Api\\appsettings.json",
+              "ToolTip": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\appsettings.json",
+              "RelativeToolTip": "ArchiSpace3D.Api\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-09-07T12:17:29.577Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "ArchiSpace3D.Api\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Properties\\launchSettings.json",
+              "RelativeToolTip": "ArchiSpace3D.Api\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-09-07T12:17:24.998Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Program.cs",
+              "RelativeDocumentMoniker": "ArchiSpace3D.Api\\Program.cs",
+              "ToolTip": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Program.cs",
+              "RelativeToolTip": "ArchiSpace3D.Api\\Program.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-07T12:16:53.778Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
