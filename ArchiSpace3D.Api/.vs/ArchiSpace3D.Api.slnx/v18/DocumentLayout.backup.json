@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|c:\\users\\pc_02\\desktop\\archispace3d-backend\\archispace3d.api\\archispace3d.api\\controllers\\notificacioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|solutionrelative:archispace3d.api\\controllers\\notificacioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|c:\\users\\pc_02\\desktop\\archispace3d-backend\\archispace3d.api\\archispace3d.api\\controllers\\proyectocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|solutionrelative:archispace3d.api\\controllers\\proyectocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|c:\\users\\pc_02\\desktop\\archispace3d-backend\\archispace3d.api\\archispace3d.api\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A8CBC284-56A0-07DA-80BC-172031947E14}|ArchiSpace3D.Api\\ArchiSpace3D.Api.csproj|solutionrelative:archispace3d.api\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -38,11 +46,36 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
+              "Title": "notificacionController.cs",
+              "DocumentMoniker": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Controllers\\notificacionController.cs",
+              "RelativeDocumentMoniker": "ArchiSpace3D.Api\\Controllers\\notificacionController.cs",
+              "ToolTip": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Controllers\\notificacionController.cs",
+              "RelativeToolTip": "ArchiSpace3D.Api\\Controllers\\notificacionController.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAcwCIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-09T13:53:05.02Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "proyectoController.cs",
+              "DocumentMoniker": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Controllers\\proyectoController.cs",
+              "RelativeDocumentMoniker": "ArchiSpace3D.Api\\Controllers\\proyectoController.cs",
+              "ToolTip": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Controllers\\proyectoController.cs",
+              "RelativeToolTip": "ArchiSpace3D.Api\\Controllers\\proyectoController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-09T13:53:00.609Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "LoginRequest.cs",
               "DocumentMoniker": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Models\\LoginRequest.cs",
               "RelativeDocumentMoniker": "ArchiSpace3D.Api\\Models\\LoginRequest.cs",
@@ -54,7 +87,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "usuarioServiceImpl.cs",
               "DocumentMoniker": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Service\\usuarioServiceImpl.cs",
               "RelativeDocumentMoniker": "ArchiSpace3D.Api\\Service\\usuarioServiceImpl.cs",
@@ -66,7 +99,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "usuarioService.cs",
               "DocumentMoniker": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Service\\usuarioService.cs",
               "RelativeDocumentMoniker": "ArchiSpace3D.Api\\Service\\usuarioService.cs",
@@ -78,7 +111,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "usuarioController.cs",
               "DocumentMoniker": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Controllers\\usuarioController.cs",
               "RelativeDocumentMoniker": "ArchiSpace3D.Api\\Controllers\\usuarioController.cs",
@@ -86,12 +119,11 @@
               "RelativeToolTip": "ArchiSpace3D.Api\\Controllers\\usuarioController.cs",
               "ViewState": "AgIAABkAAAAAAAAAAAAkwCAAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-07T12:23:39.04Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-07T12:23:39.04Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\appsettings.json",
               "RelativeDocumentMoniker": "ArchiSpace3D.Api\\appsettings.json",
@@ -103,7 +135,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "launchSettings.json",
               "DocumentMoniker": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "ArchiSpace3D.Api\\Properties\\launchSettings.json",
@@ -115,7 +147,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\PC_02\\Desktop\\ArchiSpace3D-Backend\\ArchiSpace3D.Api\\ArchiSpace3D.Api\\Program.cs",
               "RelativeDocumentMoniker": "ArchiSpace3D.Api\\Program.cs",
