@@ -53,6 +53,27 @@ namespace ArchiSpace3D.Api.Controllers
      return Ok(notificaciones);
  }
 
+        [HttpGet("mis-notificaciones")]
+        public async Task<IActionResult> GetMisNotificaciones()
+        {
+            int idUsuario = User.GetIdUsuario();
+            string rol = User.GetRol();
+
+            var proyectos = rol == "Arquitecto"
+                ? await _proyectoService.GetByArquitectoAsync(idUsuario)
+                : await _proyectoService.GetByClienteAsync(idUsuario);
+
+            var listasPorProyecto = await Task.WhenAll(
+                proyectos.Select(p => _service.GetByProyectoAsync(p.Idproyecto)));
+
+            var notificaciones = listasPorProyecto
+                .SelectMany(lista => lista)
+                .OrderByDescending(n => n.Fechaenvio)
+                .ToList();
+
+            return Ok(notificaciones);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
