@@ -1,0 +1,937 @@
+[
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/Auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "ArchiSpace3D.Api.Controllers.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.elementoeEstructuralController",
+    "Method": "GetAll",
+    "RelativePath": "api/elementoeEstructural",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.elementoeEstructuralController",
+    "Method": "Crear",
+    "RelativePath": "api/elementoeEstructural",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "elemento",
+        "Type": "ArchiSpace3D.Api.Models.Elementoestructural",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.elementoeEstructuralController",
+    "Method": "GetById",
+    "RelativePath": "api/elementoeEstructural/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.elementoeEstructuralController",
+    "Method": "Actualizar",
+    "RelativePath": "api/elementoeEstructural/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "elemento",
+        "Type": "ArchiSpace3D.Api.Models.Elementoestructural",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.elementoeEstructuralController",
+    "Method": "Eliminar",
+    "RelativePath": "api/elementoeEstructural/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.elementoeEstructuralController",
+    "Method": "GetByVersionDiseno",
+    "RelativePath": "api/elementoeEstructural/version/{idVersionDiseno}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idVersionDiseno",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.espacioFisicoController",
+    "Method": "GetAll",
+    "RelativePath": "api/espacioFisico",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.espacioFisicoController",
+    "Method": "Crear",
+    "RelativePath": "api/espacioFisico",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "espacio",
+        "Type": "ArchiSpace3D.Api.Models.Espaciofisico",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.espacioFisicoController",
+    "Method": "GetById",
+    "RelativePath": "api/espacioFisico/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.espacioFisicoController",
+    "Method": "Actualizar",
+    "RelativePath": "api/espacioFisico/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "espacio",
+        "Type": "ArchiSpace3D.Api.Models.Espaciofisico",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.espacioFisicoController",
+    "Method": "Eliminar",
+    "RelativePath": "api/espacioFisico/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.espacioFisicoController",
+    "Method": "GetByProyecto",
+    "RelativePath": "api/espacioFisico/proyecto/{idProyecto}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idProyecto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.invitacionController",
+    "Method": "GetAll",
+    "RelativePath": "api/invitacion",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.invitacionController",
+    "Method": "Crear",
+    "RelativePath": "api/invitacion",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "invitacion",
+        "Type": "ArchiSpace3D.Api.Models.Invitacion",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.invitacionController",
+    "Method": "GetById",
+    "RelativePath": "api/invitacion/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.invitacionController",
+    "Method": "Eliminar",
+    "RelativePath": "api/invitacion/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.invitacionController",
+    "Method": "GetByArquitecto",
+    "RelativePath": "api/invitacion/arquitecto/{idArquitecto}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idArquitecto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.invitacionController",
+    "Method": "GetByCodigo",
+    "RelativePath": "api/invitacion/codigo/{codigo}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "codigo",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.invitacionController",
+    "Method": "Usar",
+    "RelativePath": "api/invitacion/codigo/{codigo}/usar",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "codigo",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "ArchiSpace3D.Api.Controllers.UsarInvitacionRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.invitacionController",
+    "Method": "GetByProyecto",
+    "RelativePath": "api/invitacion/proyecto/{idProyecto}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idProyecto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.MedicionController",
+    "Method": "GetAll",
+    "RelativePath": "api/Medicion",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.MedicionController",
+    "Method": "Crear",
+    "RelativePath": "api/Medicion",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "medicion",
+        "Type": "ArchiSpace3D.Api.Models.Medicion",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.MedicionController",
+    "Method": "GetById",
+    "RelativePath": "api/Medicion/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.MedicionController",
+    "Method": "Eliminar",
+    "RelativePath": "api/Medicion/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.MedicionController",
+    "Method": "GetByProyecto",
+    "RelativePath": "api/Medicion/proyecto/{idProyecto}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idProyecto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.modeloImportadoController",
+    "Method": "GetAll",
+    "RelativePath": "api/modeloImportado",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.modeloImportadoController",
+    "Method": "Crear",
+    "RelativePath": "api/modeloImportado",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "modelo",
+        "Type": "ArchiSpace3D.Api.Models.Modeloimportado",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.modeloImportadoController",
+    "Method": "GetById",
+    "RelativePath": "api/modeloImportado/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.modeloImportadoController",
+    "Method": "Eliminar",
+    "RelativePath": "api/modeloImportado/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.modeloImportadoController",
+    "Method": "ActualizarTransform",
+    "RelativePath": "api/modeloImportado/{id}/transform",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "modelo",
+        "Type": "ArchiSpace3D.Api.Models.Modeloimportado",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.modeloImportadoController",
+    "Method": "GetByVersionDiseno",
+    "RelativePath": "api/modeloImportado/version/{idVersionDiseno}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idVersionDiseno",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.notificacionController",
+    "Method": "GetAll",
+    "RelativePath": "api/notificacion",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.notificacionController",
+    "Method": "Crear",
+    "RelativePath": "api/notificacion",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "notificacion",
+        "Type": "ArchiSpace3D.Api.Models.Notificacion",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.notificacionController",
+    "Method": "GetById",
+    "RelativePath": "api/notificacion/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.notificacionController",
+    "Method": "Eliminar",
+    "RelativePath": "api/notificacion/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.notificacionController",
+    "Method": "MarcarComoLeida",
+    "RelativePath": "api/notificacion/{id}/leer",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.notificacionController",
+    "Method": "GetMisNotificaciones",
+    "RelativePath": "api/notificacion/mis-notificaciones",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.notificacionController",
+    "Method": "GetByProyecto",
+    "RelativePath": "api/notificacion/proyecto/{idProyecto}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idProyecto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.notificacionController",
+    "Method": "GetNoLeidasByProyecto",
+    "RelativePath": "api/notificacion/proyecto/{idProyecto}/no-leidas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idProyecto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.proyectoController",
+    "Method": "GetAll",
+    "RelativePath": "api/proyecto",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.proyectoController",
+    "Method": "Crear",
+    "RelativePath": "api/proyecto",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "proyecto",
+        "Type": "ArchiSpace3D.Api.Models.Proyecto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.proyectoController",
+    "Method": "GetById",
+    "RelativePath": "api/proyecto/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.proyectoController",
+    "Method": "Actualizar",
+    "RelativePath": "api/proyecto/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "proyecto",
+        "Type": "ArchiSpace3D.Api.Models.Proyecto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.proyectoController",
+    "Method": "Eliminar",
+    "RelativePath": "api/proyecto/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.proyectoController",
+    "Method": "GetByArquitecto",
+    "RelativePath": "api/proyecto/arquitecto/{idArquitecto}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idArquitecto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.proyectoController",
+    "Method": "GetByCliente",
+    "RelativePath": "api/proyecto/cliente/{idCliente}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idCliente",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.usuarioController",
+    "Method": "GetAll",
+    "RelativePath": "api/usuario",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.usuarioController",
+    "Method": "Registrar",
+    "RelativePath": "api/usuario",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "usuario",
+        "Type": "ArchiSpace3D.Api.Models.Usuario",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.usuarioController",
+    "Method": "GetById",
+    "RelativePath": "api/usuario/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.usuarioController",
+    "Method": "Actualizar",
+    "RelativePath": "api/usuario/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "usuario",
+        "Type": "ArchiSpace3D.Api.Models.Usuario",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.usuarioController",
+    "Method": "Eliminar",
+    "RelativePath": "api/usuario/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.usuarioController",
+    "Method": "Login",
+    "RelativePath": "api/usuario/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "ArchiSpace3D.Api.Controllers.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.versionDise\u00F1oController",
+    "Method": "GetAll",
+    "RelativePath": "api/versionDise\u00F1o",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.versionDise\u00F1oController",
+    "Method": "Crear",
+    "RelativePath": "api/versionDise\u00F1o",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "version",
+        "Type": "ArchiSpace3D.Api.Models.Versiondiseno",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.versionDise\u00F1oController",
+    "Method": "GetById",
+    "RelativePath": "api/versionDise\u00F1o/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.versionDise\u00F1oController",
+    "Method": "Eliminar",
+    "RelativePath": "api/versionDise\u00F1o/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.versionDise\u00F1oController",
+    "Method": "MarcarComoActual",
+    "RelativePath": "api/versionDise\u00F1o/{id}/actual",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "ArchiSpace3D.Api.Controllers.MarcarActualRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.versionDise\u00F1oController",
+    "Method": "GetByProyecto",
+    "RelativePath": "api/versionDise\u00F1o/proyecto/{idProyecto}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idProyecto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ArchiSpace3D.Api.Controllers.versionDise\u00F1oController",
+    "Method": "GetVersionActual",
+    "RelativePath": "api/versionDise\u00F1o/proyecto/{idProyecto}/actual",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idProyecto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
