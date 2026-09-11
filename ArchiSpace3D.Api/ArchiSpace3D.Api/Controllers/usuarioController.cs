@@ -1,4 +1,4 @@
-using ArchiSpace3D.Api.Models;
+﻿using ArchiSpace3D.Api.Models;
 using ArchiSpace3D.Api.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -50,17 +50,12 @@ namespace ArchiSpace3D.Api.Controllers
             var usuario = await _usuarioService.LoginAsync(request.Email, request.Contrasena);
             if (usuario == null)
             {
-                return Unauthorized("Credenciales inválidas.");
+                return Unauthorized("Credenciales invÃ¡lidas.");
             }
 
             string token = _jwtGenerator.GenerarToken(usuario);
 
-            return Ok(new { 
-                token = token,
-                idusuario = usuario.Idusuario,
-                nombre = usuario.Nombre,
-                rol = usuario.Rol
-            });
+            return Ok(new { token = token, idusuario = usuario.Idusuario, nombre = usuario.Nombre, apellido = usuario.Apellido, email = usuario.Email, telefono = usuario.Telefono, direccion = usuario.Direccion, tipodocumento = usuario.Tipodocumento, numerodocumento = usuario.Numerodocumento, rol = usuario.Rol });
         }
 
         [HttpPut("{id}")]
@@ -83,3 +78,4 @@ namespace ArchiSpace3D.Api.Controllers
         }
     }
 }
+
