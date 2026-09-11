@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Models;
+using ArchiSpace3D.Api.Models;
 using ArchiSpace3D.Api.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +9,12 @@ namespace ArchiSpace3D.Api.Controllers
     public class usuarioController : ControllerBase
     {
         private readonly usuarioServiceImpl _usuarioService;
+        private readonly ArchiSpace3D.Api.Util.JwtTokenGenerator _jwtGenerator;
 
-        public usuarioController(usuarioServiceImpl usuarioService)
+        public usuarioController(usuarioServiceImpl usuarioService, ArchiSpace3D.Api.Util.JwtTokenGenerator jwtGenerator)
         {
             _usuarioService = usuarioService;
+            _jwtGenerator = jwtGenerator;
         }
 
         [HttpGet]
@@ -51,10 +53,14 @@ namespace ArchiSpace3D.Api.Controllers
                 return Unauthorized("Credenciales inválidas.");
             }
 
-            // NOTE: Here you would normally generate a JWT token.
-            // For now, we return the user object (excluding the hash).
-            usuario.Contrasena = string.Empty;
-            return Ok(usuario);
+            string token = _jwtGenerator.GenerarToken(usuario);
+
+            return Ok(new { 
+                token = token,
+                idusuario = usuario.Idusuario,
+                nombre = usuario.Nombre,
+                rol = usuario.Rol
+            });
         }
 
         [HttpPut("{id}")]

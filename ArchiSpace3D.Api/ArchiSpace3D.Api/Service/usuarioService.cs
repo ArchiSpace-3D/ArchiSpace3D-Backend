@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Dao;
+using ArchiSpace3D.Api.Dao;
 using ArchiSpace3D.Api.Models;
 
 namespace ArchiSpace3D.Api.Service
@@ -51,9 +51,17 @@ namespace ArchiSpace3D.Api.Service
                 return null;
             }
 
-            if (!BCrypt.Net.BCrypt.Verify(password, usuario.Contrasena))
+            try
             {
-                return null;
+                if (!BCrypt.Net.BCrypt.Verify(password, usuario.Contrasena))
+                {
+                    if (password != usuario.Contrasena) return null;
+                }
+            }
+            catch
+            {
+                // Si la contraseña guardada no es un hash válido de BCrypt (e.g. guardada en texto plano antes)
+                if (password != usuario.Contrasena) return null;
             }
 
             return usuario;
