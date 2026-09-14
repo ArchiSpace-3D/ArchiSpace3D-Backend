@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Models;
+using ArchiSpace3D.Api.Models;
 using ArchiSpace3D.Api.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -59,12 +59,24 @@ namespace ArchiSpace3D.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Actualizar(int id, [FromBody] Usuario usuario)
+        public async Task<IActionResult> Actualizar(int id, [FromBody] ActualizarUsuarioDto dto)
         {
-            if (id != usuario.Idusuario)
+            if (id != dto.Idusuario)
             {
                 return BadRequest("El id de la URL no coincide con el del body.");
             }
+
+            var usuario = new Usuario
+            {
+                Idusuario = dto.Idusuario,
+                Nombre = dto.Nombre,
+                Apellido = dto.Apellido,
+                Telefono = dto.Telefono,
+                Direccion = dto.Direccion,
+                Tipodocumento = dto.Tipodocumento,
+                Numerodocumento = dto.Numerodocumento,
+                Avatarurl = dto.Avatarurl
+            };
 
             var actualizado = await _usuarioService.ActualizarAsync(usuario);
             return actualizado ? NoContent() : NotFound();

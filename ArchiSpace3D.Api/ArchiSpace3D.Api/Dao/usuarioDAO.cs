@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Dao;
+using ArchiSpace3D.Api.Dao;
 using ArchiSpace3D.Api.Data;
 using ArchiSpace3D.Api.Models;
 using ArchiSpace3D.Api.Service;
@@ -81,6 +81,12 @@ namespace ArchiSpace3D.Api.Dao
             existente.Direccion = usuario.Direccion;
             existente.Tipodocumento = usuario.Tipodocumento;
             existente.Numerodocumento = usuario.Numerodocumento;
+            
+            // Actualizar foto de perfil si se envía
+            if (usuario.Avatarurl != null)
+            {
+                existente.Avatarurl = usuario.Avatarurl;
+            }
 
             await _context.SaveChangesAsync();
             return true;
