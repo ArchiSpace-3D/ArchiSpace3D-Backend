@@ -55,7 +55,7 @@ namespace ArchiSpace3D.Api.Controllers
 
             string token = _jwtGenerator.GenerarToken(usuario);
 
-            return Ok(new { token = token, idusuario = usuario.Idusuario, nombre = usuario.Nombre, apellido = usuario.Apellido, email = usuario.Email, telefono = usuario.Telefono, direccion = usuario.Direccion, tipodocumento = usuario.Tipodocumento, numerodocumento = usuario.Numerodocumento, rol = usuario.Rol });
+            return Ok(new { token = token, idusuario = usuario.Idusuario, nombre = usuario.Nombre, apellido = usuario.Apellido, email = usuario.Email, telefono = usuario.Telefono, direccion = usuario.Direccion, tipodocumento = usuario.Tipodocumento, numerodocumento = usuario.Numerodocumento, avatarurl = usuario.Avatarurl, rol = usuario.Rol });
         }
 
         [HttpPut("{id}")]
@@ -78,4 +78,5 @@ namespace ArchiSpace3D.Api.Controllers
         }
     }
 }
+
 

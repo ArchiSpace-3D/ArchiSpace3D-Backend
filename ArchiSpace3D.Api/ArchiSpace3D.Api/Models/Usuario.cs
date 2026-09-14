@@ -49,6 +49,10 @@ public partial class Usuario
     [StringLength(50)]
     public string? Numerodocumento { get; set; }
 
+    [Column("avatar_url")]
+    [StringLength(1024)]
+    public string? Avatarurl { get; set; }
+
     [Column("rol")]
     [StringLength(20)]
     public string Rol { get; set; } = null!;

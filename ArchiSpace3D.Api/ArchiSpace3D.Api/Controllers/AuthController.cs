@@ -31,7 +31,7 @@ namespace ArchiSpace3D.Api.Controllers
             {
                 var (token, usuario) = await _authService.LoginAsync(request.Email, request.Contrasena);
 
-                return Ok(new { token, usuario.Idusuario, usuario.Nombre, usuario.Apellido, usuario.Email, usuario.Telefono, usuario.Direccion, usuario.Tipodocumento, usuario.Numerodocumento, usuario.Rol });
+                return Ok(new { token, usuario.Idusuario, usuario.Nombre, usuario.Apellido, usuario.Email, usuario.Telefono, usuario.Direccion, usuario.Tipodocumento, usuario.Numerodocumento, usuario.Avatarurl, usuario.Rol });
             }
             catch (InvalidOperationException ex)
             {
@@ -40,4 +40,5 @@ namespace ArchiSpace3D.Api.Controllers
         }
     }
 }
+
 
