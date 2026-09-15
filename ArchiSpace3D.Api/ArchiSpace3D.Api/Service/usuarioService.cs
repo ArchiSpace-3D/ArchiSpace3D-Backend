@@ -111,5 +111,25 @@ namespace ArchiSpace3D.Api.Service
 
             return await _usuarioDao.CreateAsync(nuevo);
         }
+        public async Task<bool> ActualizarPerfilAsync(ActualizarUsuarioDto dto)
+        {
+            var existente = await _usuarioDao.GetByIdAsync(dto.Idusuario);
+            if (existente is null) return false;
+
+            existente.Nombre = dto.Nombre;
+            existente.Apellido = dto.Apellido;
+            existente.Telefono = dto.Telefono;
+            existente.Direccion = dto.Direccion;
+            existente.Tipodocumento = dto.Tipodocumento;
+            existente.Numerodocumento = dto.Numerodocumento;
+
+            if (!string.IsNullOrEmpty(dto.Avatarurl))
+            {
+                existente.Avatarurl = dto.Avatarurl;
+            }
+
+            return await _usuarioDao.UpdateAsync(existente);
+        }
     }
+
 }

@@ -100,14 +100,14 @@ namespace ArchiSpace3D.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Actualizar(int id, [FromBody] Usuario usuario)
+        public async Task<IActionResult> Actualizar(int id, [FromBody] ActualizarUsuarioDto dto)
         {
-            if (id != usuario.Idusuario)
+            if (id != dto.Idusuario)
             {
                 return BadRequest("El id de la URL no coincide con el del body.");
             }
 
-            var actualizado = await _usuarioService.ActualizarAsync(usuario);
+            var actualizado = await _usuarioService.ActualizarPerfilAsync(dto);
             return actualizado ? NoContent() : NotFound();
         }
 
