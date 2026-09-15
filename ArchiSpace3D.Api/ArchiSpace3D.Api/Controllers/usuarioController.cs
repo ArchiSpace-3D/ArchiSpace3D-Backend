@@ -62,7 +62,12 @@ namespace ArchiSpace3D.Api.Controllers
                 Nombre = usuario.Nombre,
                 Apellido = usuario.Apellido,
                 Email = usuario.Email,
-                Rol = usuario.Rol
+                Rol = usuario.Rol,
+                Telefono = usuario.Telefono,
+                Direccion = usuario.Direccion,
+                Tipodocumento = usuario.Tipodocumento,
+                Numerodocumento = usuario.Numerodocumento,
+                Avatarurl = usuario.Avatarurl
             });
         }
 
@@ -85,7 +90,12 @@ namespace ArchiSpace3D.Api.Controllers
                 Nombre = usuario.Nombre,
                 Apellido = usuario.Apellido,
                 Email = usuario.Email,
-                Rol = usuario.Rol
+                Rol = usuario.Rol,
+                Telefono = usuario.Telefono,
+                Direccion = usuario.Direccion,
+                Tipodocumento = usuario.Tipodocumento,
+                Numerodocumento = usuario.Numerodocumento,
+                Avatarurl = usuario.Avatarurl
             });
         }
 

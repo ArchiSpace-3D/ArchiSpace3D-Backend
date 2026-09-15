@@ -1,4 +1,4 @@
-﻿namespace ArchiSpace3D.Api.Models
+namespace ArchiSpace3D.Api.Models
 {
     public class loginResponse
     {
@@ -8,5 +8,10 @@
         public string Apellido { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Rol { get; set; } = string.Empty;
+        public string? Telefono { get; set; }
+        public string? Direccion { get; set; }
+        public string? Tipodocumento { get; set; }
+        public string? Numerodocumento { get; set; }
+        public string? Avatarurl { get; set; }
     }
 }
