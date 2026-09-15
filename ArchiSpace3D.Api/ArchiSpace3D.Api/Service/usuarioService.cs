@@ -1,15 +1,21 @@
 using ArchiSpace3D.Api.Dao;
 using ArchiSpace3D.Api.Models;
+using System.Text.Json;
 
 namespace ArchiSpace3D.Api.Service
 {
     public class usuarioService : usuarioServiceImpl
     {
         private readonly usuarioDAOImpl _usuarioDao;
+        private readonly HttpClient _httpClient;
+        private readonly IConfiguration _configuration;
 
-        public usuarioService(usuarioDAOImpl usuarioDao)
+
+        public usuarioService(usuarioDAOImpl usuarioDao, HttpClient httpClient, IConfiguration configuration)
         {
             _usuarioDao = usuarioDao;
+            _httpClient = httpClient;
+            _configuration = configuration;
         }
 
         public async Task<IEnumerable<Usuario>> GetAllAsync()
@@ -51,17 +57,9 @@ namespace ArchiSpace3D.Api.Service
                 return null;
             }
 
-            try
+            if (!BCrypt.Net.BCrypt.Verify(password, usuario.Contrasena))
             {
-                if (!BCrypt.Net.BCrypt.Verify(password, usuario.Contrasena))
-                {
-                    if (password != usuario.Contrasena) return null;
-                }
-            }
-            catch
-            {
-                // Si la contraseña guardada no es un hash válido de BCrypt (e.g. guardada en texto plano antes)
-                if (password != usuario.Contrasena) return null;
+                return null;
             }
 
             return usuario;
@@ -75,6 +73,43 @@ namespace ArchiSpace3D.Api.Service
         public async Task<bool> EliminarAsync(int id)
         {
             return await _usuarioDao.DeleteAsync(id);
+        }
+
+
+        public async Task<string?> ValidarTokenSupabaseAsync(string accessToken)
+        {
+            var supabaseUrl = _configuration["Supabase:Url"];
+            var supabaseAnonKey = _configuration["Supabase:AnonKey"];
+
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{supabaseUrl}/auth/v1/user");
+            request.Headers.Add("Authorization", $"Bearer {accessToken}");
+            request.Headers.Add("apikey", supabaseAnonKey);
+
+            var response = await _httpClient.SendAsync(request);
+            if (!response.IsSuccessStatusCode) return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+            using var doc = JsonDocument.Parse(json);
+            return doc.RootElement.TryGetProperty("email", out var emailProp) ? emailProp.GetString() : null;
+        }
+
+        public async Task<Usuario> LoginOrRegistrarGoogleAsync(string email)
+        {
+            var existente = await _usuarioDao.GetByEmailAsync(email);
+            if (existente != null) return existente;
+
+            var nuevo = new Usuario
+            {
+                Nombre = email.Split('@')[0],
+                Apellido = "",
+                Email = email,
+                Contrasena = BCrypt.Net.BCrypt.HashPassword(Guid.NewGuid().ToString()), // sin uso real, solo satisface el NOT NULL
+                Rol = "Cliente",
+                Activo = true,
+                Fecharegistro = DateTime.UtcNow
+            };
+
+            return await _usuarioDao.CreateAsync(nuevo);
         }
     }
 }

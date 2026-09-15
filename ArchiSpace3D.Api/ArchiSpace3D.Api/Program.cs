@@ -112,7 +112,7 @@ builder.Services.AddScoped<notificacionDAOImpl, notificacionDAO>();
 builder.Services.AddScoped<versiondiseñoDAOImpl, versiondisenoDAO>();
 
 // Services
-builder.Services.AddScoped<usuarioServiceImpl, usuarioService>();
+builder.Services.AddHttpClient<usuarioServiceImpl, usuarioService>();
 builder.Services.AddScoped<proyectoServiceImpl, proyectoService>();
 builder.Services.AddScoped<elementoEstructuralServiceImpl, elementoEstructuralService>();
 builder.Services.AddScoped<espacioFisicoServiceImpl, espacioFisicoService>();
