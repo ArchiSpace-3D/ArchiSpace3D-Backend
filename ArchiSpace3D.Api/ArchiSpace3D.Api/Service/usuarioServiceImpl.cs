@@ -13,5 +13,6 @@ namespace ArchiSpace3D.Api.Service
         Task<bool> ActualizarPerfilAsync(ActualizarUsuarioDto dto);
         Task<string?> ValidarTokenSupabaseAsync(string accessToken);
         Task<Usuario> LoginOrRegistrarGoogleAsync(string email);
+        Task<bool> ActualizarFcmTokenAsync(int idUsuario, string token);
     }
 }

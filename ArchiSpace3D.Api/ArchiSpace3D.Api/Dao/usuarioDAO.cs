@@ -91,6 +91,20 @@ namespace ArchiSpace3D.Api.Dao
             await _context.SaveChangesAsync();
             return true;
         }
+        public async Task<bool> ActualizarFcmTokenAsync(int idUsuario, string token)
+        {
+            var existente = await _context.Usuarios
+                .FirstOrDefaultAsync(u => u.Idusuario == idUsuario);
+
+            if (existente is null)
+            {
+                return false;
+            }
+
+            existente.Fcmtoken = token;
+            await _context.SaveChangesAsync();
+            return true;
+        }
 
         public async Task<bool> DeleteAsync(int id)
         {

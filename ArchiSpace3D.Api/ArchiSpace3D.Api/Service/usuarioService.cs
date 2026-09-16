@@ -130,6 +130,10 @@ namespace ArchiSpace3D.Api.Service
 
             return await _usuarioDao.UpdateAsync(existente);
         }
+        public async Task<bool> ActualizarFcmTokenAsync(int idUsuario, string token)
+        {
+            return await _usuarioDao.ActualizarFcmTokenAsync(idUsuario, token);
+        }
     }
 
 }
