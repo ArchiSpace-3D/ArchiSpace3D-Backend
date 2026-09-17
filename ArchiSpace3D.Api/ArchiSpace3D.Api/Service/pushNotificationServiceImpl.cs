@@ -1,6 +1,7 @@
 ﻿namespace ArchiSpace3D.Api.Service
 {
-    public class pushNotificationServiceImpl
+    public interface pushNotificationServiceImpl
     {
+        Task EnviarNotificacionAsync(string token, string titulo, string cuerpo, Dictionary<string, string>? data = null);
     }
 }

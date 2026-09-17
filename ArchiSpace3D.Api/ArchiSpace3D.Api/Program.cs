@@ -3,6 +3,8 @@ using ArchiSpace3D.Api.Data;
 using ArchiSpace3D.Api.Hubs;
 using ArchiSpace3D.Api.Service;
 using ArchiSpace3D.Api.Util;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -10,7 +12,11 @@ using Microsoft.OpenApi;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var credentialPath = Path.Combine(builder.Environment.ContentRootPath, "Config", "archispace3d-firebase-adminsdk-fbsvc-c474b08bcd.json");
+FirebaseApp.Create(new AppOptions()
+{
+    Credential = GoogleCredential.FromFile(credentialPath)
+});
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -121,6 +127,7 @@ builder.Services.AddScoped<medicionServiceImpl, medicionService>();
 builder.Services.AddScoped<modeloImportadoServiceImpl, modeloImportadoService>();
 builder.Services.AddScoped<notificacionServiceImpl, notificacionService>();
 builder.Services.AddScoped<versionDiseñoServiceImpl, versionDiseñoService>();
+builder.Services.AddScoped<pushNotificationServiceImpl, pushNotificationService>();
 
 // Autenticación
 builder.Services.AddSingleton<JwtTokenGenerator>();

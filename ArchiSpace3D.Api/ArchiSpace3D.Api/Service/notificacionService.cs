@@ -8,12 +8,23 @@ namespace ArchiSpace3D.Api.Service
     public class notificacionService : notificacionServiceImpl
     {
         private readonly notificacionDAOImpl _dao;
+        private readonly proyectoDAOImpl _proyectoDao;
+        private readonly usuarioDAOImpl _usuarioDao;
         private readonly IHubContext<SalaColaborativaHub> _hubContext;
+        private readonly pushNotificationServiceImpl _pushService;
 
-        public notificacionService(notificacionDAOImpl dao, IHubContext<SalaColaborativaHub> hubContext)
+        public notificacionService(
+            notificacionDAOImpl dao,
+            proyectoDAOImpl proyectoDao,
+            usuarioDAOImpl usuarioDao,
+            IHubContext<SalaColaborativaHub> hubContext,
+            pushNotificationServiceImpl pushService)
         {
             _dao = dao;
+            _proyectoDao = proyectoDao;
+            _usuarioDao = usuarioDao;
             _hubContext = hubContext;
+            _pushService = pushService;
         }
 
         public async Task<IEnumerable<Notificacion>> GetAllAsync() => await _dao.GetAllAsync();
@@ -30,6 +41,7 @@ namespace ArchiSpace3D.Api.Service
         {
             var creada = await _dao.CreateAsync(notificacion);
             await EmpujarEnVivoAsync(creada);
+            await EmpujarPushAsync(creada);
             return creada;
         }
 
@@ -47,8 +59,8 @@ namespace ArchiSpace3D.Api.Service
                 Mensaje = mensaje
             };
 
-            // Reutiliza CrearAsync -> mismo camino de guardado + push que una
-            // notificación creada manualmente desde el Controller.
+            // Reutiliza CrearAsync -> mismo camino de guardado + push en vivo (SignalR)
+            // + push a dispositivo (Firebase) que una notificación creada manualmente.
             await CrearAsync(notificacion);
         }
 
@@ -56,6 +68,46 @@ namespace ArchiSpace3D.Api.Service
         {
             var grupo = notificacion.Idproyecto.ToString();
             await _hubContext.Clients.Group(grupo).SendAsync("NuevaNotificacion", notificacion);
+        }
+
+        private async Task EmpujarPushAsync(Notificacion notificacion)
+        {
+            Console.WriteLine($"🔍 EmpujarPushAsync: buscando proyecto {notificacion.Idproyecto}");
+
+            var proyecto = await _proyectoDao.GetByIdAsync(notificacion.Idproyecto);
+            if (proyecto is null)
+            {
+                Console.WriteLine("❌ Proyecto no encontrado.");
+                return;
+            }
+
+            Console.WriteLine($"🔍 Proyecto encontrado. Idcliente = {proyecto.Idcliente}");
+
+            var cliente = await _usuarioDao.GetByIdAsync(proyecto.Idcliente);
+            if (cliente is null)
+            {
+                Console.WriteLine("❌ Cliente no encontrado.");
+                return;
+            }
+
+            Console.WriteLine($"🔍 Cliente encontrado: {cliente.Email}. FcmToken = '{cliente.Fcmtoken}'");
+
+            if (string.IsNullOrEmpty(cliente.Fcmtoken))
+            {
+                Console.WriteLine("❌ El cliente no tiene FcmToken guardado.");
+                return;
+            }
+
+            await _pushService.EnviarNotificacionAsync(
+                cliente.Fcmtoken,
+                titulo: proyecto.Nombre,
+                cuerpo: notificacion.Mensaje,
+                data: new Dictionary<string, string>
+                {
+            { "idProyecto", notificacion.Idproyecto.ToString() },
+            { "tipo", notificacion.Tipo ?? "" }
+                }
+            );
         }
     }
 }

@@ -1,6 +1,7 @@
 using ArchiSpace3D.Api.Models;
 using ArchiSpace3D.Api.Service;
 using ArchiSpace3D.Api.Util;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArchiSpace3D.Api.Controllers
@@ -168,6 +169,28 @@ namespace ArchiSpace3D.Api.Controllers
             {
                 return StatusCode(500, $"Error interno: {ex.Message}");
             }
+        }
+        [HttpPost("{id}/fcm-token")]
+        [Authorize]
+        public async Task<IActionResult> ActualizarFcmToken(int id, [FromBody] ActualizarFcmTokenDto dto)
+        {
+            if (User.GetIdUsuario() != id)
+            {
+                return Forbid();
+            }
+
+            if (id != dto.Idusuario)
+            {
+                return BadRequest("El id de la URL no coincide con el del body.");
+            }
+
+            if (string.IsNullOrWhiteSpace(dto.Token))
+            {
+                return BadRequest("El token no puede estar vacío.");
+            }
+
+            var actualizado = await _usuarioService.ActualizarFcmTokenAsync(id, dto.Token);
+            return actualizado ? NoContent() : NotFound();
         }
 
 
