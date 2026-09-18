@@ -1,19 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 using ArchiSpace3D.Api.Models;
-using ArchiSpace3D.Api.Services;
+using ArchiSpace3D.Api.Service;
+using ArchiSpace3D.Api.Util;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ArchiSpace3D.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class MedicionController : ControllerBase
     {
-        private readonly IMedicionService _service;
-        private readonly IProyectoService _proyectoService;
+        private readonly medicionServiceImpl _service;
+        private readonly proyectoServiceImpl _proyectoService;
 
-        public MedicionController(IMedicionService service, IProyectoService proyectoService)
+        public MedicionController(medicionServiceImpl service, proyectoServiceImpl proyectoService)
         {
             _service = service;
             _proyectoService = proyectoService;
@@ -21,20 +22,31 @@ namespace ArchiSpace3D.Api.Controllers
 
         private async Task<IActionResult?> ValidarPertenenciaProyectoAsync(int idProyecto)
         {
-            var proyecto = await _proyectoService.GetByIdAsync(idProyecto);
-            if (proyecto == null) return NotFound("Proyecto no encontrado");
+            var acceso = await _proyectoService.TieneAccesoAsync(idProyecto, User.GetIdUsuario(), User.GetRol());
+            if (acceso is null) return NotFound($"El proyecto {idProyecto} no existe.");
+            return acceso == false ? Forbid() : null;
+        }
 
-            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
-                return Unauthorized();
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _service.GetAllAsync());
+        }
 
-            if (proyecto.Idarquitecto != userId)
-            {
-                var invitado = await _proyectoService.VerificarInvitadoAsync(idProyecto, userId);
-                if (!invitado) return Forbid();
-            }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var medicion = await _service.GetByIdAsync(id);
+            return medicion is null ? NotFound() : Ok(medicion);
+        }
 
-            return null;
+        [HttpGet("proyecto/{idProyecto}")]
+        public async Task<IActionResult> GetByProyecto(int idProyecto)
+        {
+            var noPertenece = await ValidarPertenenciaProyectoAsync(idProyecto);
+            if (noPertenece is not null) return noPertenece;
+
+            return Ok(await _service.GetByProyectoAsync(idProyecto));
         }
 
         [HttpPost]
@@ -50,42 +62,22 @@ namespace ArchiSpace3D.Api.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal Error: " + ex.Message + "\nInner: " + ex.InnerException?.Message + "\nTrace: " + ex.StackTrace);
+                return StatusCode(500, $"Internal Error: {ex.Message}\nInner: {ex.InnerException?.Message}\nTrace: {ex.StackTrace}");
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var medicion = await _service.GetByIdAsync(id);
-            if (medicion == null) return NotFound();
-
-            var noPertenece = await ValidarPertenenciaProyectoAsync(medicion.Idproyecto);
-            if (noPertenece is not null) return noPertenece;
-
-            return Ok(medicion);
-        }
-
-        [HttpGet("proyecto/{idProyecto}")]
-        public async Task<IActionResult> GetByProyecto(int idProyecto)
-        {
-            var noPertenece = await ValidarPertenenciaProyectoAsync(idProyecto);
-            if (noPertenece is not null) return noPertenece;
-
-            return Ok(await _service.GetByProyectoAsync(idProyecto));
-        }
-
+        [Authorize(Roles = "Arquitecto")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Eliminar(int id)
         {
             var medicion = await _service.GetByIdAsync(id);
-            if (medicion == null) return NotFound();
+            if (medicion is null) return NotFound();
 
             var noPertenece = await ValidarPertenenciaProyectoAsync(medicion.Idproyecto);
             if (noPertenece is not null) return noPertenece;
 
-            await _service.DeleteAsync(id);
-            return NoContent();
+            var eliminado = await _service.DeleteAsync(id);
+            return eliminado ? NoContent() : NotFound();
         }
     }
 }
