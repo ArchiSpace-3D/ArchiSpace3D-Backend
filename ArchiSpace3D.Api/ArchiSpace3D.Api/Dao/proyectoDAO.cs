@@ -5,7 +5,6 @@ using ArchiSpace3D.Api.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
-
 namespace ArchiSpace3D.Api.Dao
 {
     public class proyectoDAO:proyectoDAOImpl

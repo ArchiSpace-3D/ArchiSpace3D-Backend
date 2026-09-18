@@ -10,7 +10,6 @@ namespace ArchiSpace3D.Api.Service
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
 
-
         public usuarioService(usuarioDAOImpl usuarioDao, HttpClient httpClient, IConfiguration configuration)
         {
             _usuarioDao = usuarioDao;
@@ -30,20 +29,18 @@ namespace ArchiSpace3D.Api.Service
 
         public async Task<Usuario> RegistrarAsync(Usuario usuario)
         {
-            // Regla de negocio: email único
+            
             if (await _usuarioDao.ExistsByEmailAsync(usuario.Email))
             {
                 throw new InvalidOperationException("Ya existe un usuario con ese email.");
             }
 
-            // Regla de negocio: número de documento único (si lo mandaron)
             if (!string.IsNullOrEmpty(usuario.Numerodocumento) &&
                 await _usuarioDao.ExistsByNumeroDocumentoAsync(usuario.Numerodocumento))
             {
                 throw new InvalidOperationException("Ya existe un usuario con ese número de documento.");
             }
 
-            // Regla de negocio: la contraseña nunca se guarda en texto plano
             usuario.Contrasena = BCrypt.Net.BCrypt.HashPassword(usuario.Contrasena);
 
             return await _usuarioDao.CreateAsync(usuario);
@@ -75,7 +72,6 @@ namespace ArchiSpace3D.Api.Service
             return await _usuarioDao.DeleteAsync(id);
         }
 
-
         public async Task<string?> ValidarTokenSupabaseAsync(string accessToken)
         {
             var supabaseUrl = _configuration["Supabase:Url"];
@@ -103,7 +99,7 @@ namespace ArchiSpace3D.Api.Service
                 Nombre = email.Split('@')[0],
                 Apellido = "",
                 Email = email,
-                Contrasena = BCrypt.Net.BCrypt.HashPassword(Guid.NewGuid().ToString()), // sin uso real, solo satisface el NOT NULL
+                Contrasena = BCrypt.Net.BCrypt.HashPassword(Guid.NewGuid().ToString()), 
                 Rol = "Cliente",
                 Activo = true,
                 Fecharegistro = DateTime.UtcNow

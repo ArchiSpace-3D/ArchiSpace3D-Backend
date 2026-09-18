@@ -60,7 +60,6 @@ namespace ArchiSpace3D.Api.Dao
             return version;
         }
 
-       
         public async Task<bool> MarcarComoActualAsync(int id, int idProyecto)
         {
             var versionesDelProyecto = await _context.Versiondisenos
@@ -92,7 +91,6 @@ namespace ArchiSpace3D.Api.Dao
                 return false;
             }
 
-           
             _context.Versiondisenos.Remove(existente);
             await _context.SaveChangesAsync();
             return true;

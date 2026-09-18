@@ -2,7 +2,6 @@
 using ArchiSpace3D.Api.Models;
 using ArchiSpace3D.Api.Util;
 
-
 namespace ArchiSpace3D.Api.Service
 {
     public class AuthService : AuthServiceImpl
@@ -20,9 +19,8 @@ namespace ArchiSpace3D.Api.Service
         {
             var usuario = await _usuarioDao.GetByEmailAsync(email);
 
-            // Mensaje genérico a propósito: no se le dice al atacante si fue
-            // el email o la contraseña lo que falló (evita enumerar emails
-            // válidos probando uno por uno).
+            
+            
             if (usuario is null || !BCrypt.Net.BCrypt.Verify(contrasena, usuario.Contrasena))
             {
                 throw new InvalidOperationException("Email o contraseña incorrectos.");

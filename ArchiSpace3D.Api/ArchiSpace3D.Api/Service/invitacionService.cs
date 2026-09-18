@@ -34,10 +34,8 @@ namespace ArchiSpace3D.Api.Service
             return await _dao.CreateAsync(invitacion);
         }
 
-        // Regla de negocio nueva (no estaba en el DAO): antes de marcar la
-        // invitación como usada, se valida que exista, que no esté ya usada,
-        // y que no haya expirado. Esto es exactamente el tipo de lógica que
-        // pertenece al Service, no al DAO ni al Controller.
+        
+
         public async Task<bool> UsarInvitacionAsync(string codigo, int idClienteUsado)
         {
             var invitacion = await _dao.GetByCodigoAsync(codigo);

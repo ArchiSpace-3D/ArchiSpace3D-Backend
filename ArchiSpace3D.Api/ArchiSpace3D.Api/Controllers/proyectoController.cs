@@ -18,7 +18,6 @@ namespace ArchiSpace3D.Api.Controllers
             _proyectoService = proyectoService;
         }
 
-   
         private async Task<IActionResult?> ValidarPertenenciaProyectoAsync(int idProyecto)
         {
             var acceso = await _proyectoService.TieneAccesoAsync(idProyecto, User.GetIdUsuario(), User.GetRol());

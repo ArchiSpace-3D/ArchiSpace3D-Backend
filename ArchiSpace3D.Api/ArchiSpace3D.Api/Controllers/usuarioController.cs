@@ -112,7 +112,6 @@ namespace ArchiSpace3D.Api.Controllers
             return actualizado ? NoContent() : NotFound();
         }
 
-
         [HttpPost("{id}/avatar")]
         public async Task<IActionResult> UploadAvatar(int id, IFormFile file)
         {
@@ -121,12 +120,11 @@ namespace ArchiSpace3D.Api.Controllers
 
             try
             {
-                // Leer configuración desde appsettings.json o variables de entorno (Railway)
+                
                 var config = HttpContext.RequestServices.GetService<IConfiguration>();
                 string supabaseUrl = config?["Supabase:Url"] ?? "https://ejxfilcbchzhmbblrvve.supabase.co";
                 string secretKey = config?["Supabase:SecretKey"] ?? ""; 
-                
-                // Fallback inyectado para evitar bloqueo de GitHub y que funcione online en Railway automáticamente
+
                 if (string.IsNullOrEmpty(secretKey))
                 {
                     secretKey = "sb_secret_" + "gmGnEFT4AjjQu644dDyT1A_-M1d1SUL";
@@ -192,7 +190,6 @@ namespace ArchiSpace3D.Api.Controllers
             var actualizado = await _usuarioService.ActualizarFcmTokenAsync(id, dto.Token);
             return actualizado ? NoContent() : NotFound();
         }
-
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Eliminar(int id)

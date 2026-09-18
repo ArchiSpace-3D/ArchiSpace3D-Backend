@@ -74,7 +74,6 @@ public partial class Usuario
     [StringLength(255)]
     public string? Fcmtoken { get; set; }
 
-
     [JsonIgnore]
     [ValidateNever]
     [InverseProperty("IdarquitectoNavigation")]

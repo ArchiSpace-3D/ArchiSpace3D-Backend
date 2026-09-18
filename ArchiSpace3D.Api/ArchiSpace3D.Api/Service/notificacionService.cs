@@ -59,8 +59,7 @@ namespace ArchiSpace3D.Api.Service
                 Mensaje = mensaje
             };
 
-            // Reutiliza CrearAsync -> mismo camino de guardado + push en vivo (SignalR)
-            // + push a dispositivo (Firebase) que una notificación creada manualmente.
+            
             await CrearAsync(notificacion);
         }
 

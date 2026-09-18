@@ -51,7 +51,6 @@ namespace ArchiSpace3D.Api.Service
 
             return actualizado;
         }
-     
 
         public async Task<bool> EliminarAsync(int id) => await _dao.DeleteAsync(id);
     }
