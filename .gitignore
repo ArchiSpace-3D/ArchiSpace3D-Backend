@@ -31,3 +31,6 @@ $RECYCLE.BIN/
 # Carpetas de VS y VS Code
 .vs/
 .vscode/
+
+
+Config/*.json
