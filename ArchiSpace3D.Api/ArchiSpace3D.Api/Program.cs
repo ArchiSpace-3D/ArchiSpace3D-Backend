@@ -12,7 +12,7 @@ using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 
 var builder = WebApplication.CreateBuilder(args);
-var credentialPath = Path.Combine(builder.Environment.ContentRootPath, "Config", "archispace3d-firebase-adminsdk-fbsvc-a205554326.json");
+var credentialPath = Path.Combine(builder.Environment.ContentRootPath, "Config", "archispace3d-firebase-adminsdk-fbsvc-c474b08bcd.json");
 FirebaseApp.Create(new AppOptions()
 {
     Credential = GoogleCredential.FromFile(credentialPath)
