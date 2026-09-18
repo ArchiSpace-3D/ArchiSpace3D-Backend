@@ -86,7 +86,6 @@ namespace ArchiSpace3D.Api.Dao
             existente.Usada = true;
             existente.Idclienteusado = idClienteUsado;
 
-            // Asociar el cliente al proyecto
             var proyecto = await _context.Proyectos
                 .FirstOrDefaultAsync(p => p.Idproyecto == existente.Idproyecto);
             

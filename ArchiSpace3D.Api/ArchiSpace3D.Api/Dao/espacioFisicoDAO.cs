@@ -61,7 +61,6 @@ namespace ArchiSpace3D.Api.Dao
                 return false;
             }
 
-            
             existente.Descripcion = espacio.Descripcion;
             existente.Anchoaproximado = espacio.Anchoaproximado;
             existente.Largoaproximado = espacio.Largoaproximado;

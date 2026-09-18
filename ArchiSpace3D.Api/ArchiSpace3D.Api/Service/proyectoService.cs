@@ -37,10 +37,8 @@ namespace ArchiSpace3D.Api.Service
 
         public async Task<bool> EliminarAsync(int id) => await _proyectoDao.DeleteAsync(id);
 
-        // Única implementación de "¿pertenece este proyecto a este usuario?"
-        // en TODO el backend. Si mañana cambia la regla (ej. un proyecto
-        // puede tener varios arquitectos), se edita aquí y ya -- ningún
-        // Controller necesita tocarse.
+        
+
         public async Task<bool?> TieneAccesoAsync(int idProyecto, int idUsuario, string rol)
         {
             var proyecto = await _proyectoDao.GetByIdAsync(idProyecto);

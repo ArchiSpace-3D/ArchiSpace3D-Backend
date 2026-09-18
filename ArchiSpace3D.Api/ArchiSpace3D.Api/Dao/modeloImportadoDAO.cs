@@ -44,11 +44,9 @@ namespace ArchiSpace3D.Api.Dao
             return modelo;
         }
 
-        // Llamado "UpdateTransformAsync" (no "UpdateAsync" genérico) a propósito:
-        // lo único que tiene sentido editar en un modelo ya importado es su
-        // posición/rotación/escala dentro de la escena 3D. Nombrearchivo, Formato
-        // y Rutastorage pertenecen al archivo físico importado — cambiarlos sería
-        // "reimportar", no "editar", así que se dejan fuera de este método.
+        
+
+        
         public async Task<bool> UpdateTransformAsync(Modeloimportado modelo)
         {
             var existente = await _context.Modeloimportados

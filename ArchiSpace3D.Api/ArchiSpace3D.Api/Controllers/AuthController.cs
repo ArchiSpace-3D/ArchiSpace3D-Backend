@@ -21,8 +21,7 @@ namespace ArchiSpace3D.Api.Controllers
             _authService = authService;
         }
 
-        // [AllowAnonymous]: este es el único endpoint que debe funcionar SIN
-        // token todavía -- es justamente el que entrega el token.
+        
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
@@ -35,10 +34,9 @@ namespace ArchiSpace3D.Api.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                return Unauthorized(ex.Message); // 401
+                return Unauthorized(ex.Message); 
             }
         }
     }
 }
-
 

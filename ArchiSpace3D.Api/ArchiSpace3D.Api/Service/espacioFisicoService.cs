@@ -21,7 +21,7 @@ namespace ArchiSpace3D.Api.Service
 
         public async Task<Espaciofisico> CrearAsync(Espaciofisico espacio)
         {
-            // Regla de negocio: un proyecto solo puede tener UN espacio físico (relación uno-a-uno)
+            
             if (await _dao.ExistsByProyectoAsync(espacio.Idproyecto))
             {
                 throw new InvalidOperationException("Este proyecto ya tiene un espacio físico registrado.");
