@@ -12,11 +12,53 @@ using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 
 var builder = WebApplication.CreateBuilder(args);
-var credentialPath = Path.Combine(builder.Environment.ContentRootPath, "Config", "archispace3d-firebase-adminsdk-fbsvc-02a6a4a5a5.json");
+
+// Firebase Admin SDK: en producción (Railway) las credenciales vienen de la
+// variable de entorno FIREBASE_CREDENTIALS_JSON (JSON completo o Base64), así
+// la key no vive en el repo ni en la imagen. En local, si la variable no
+// existe, se usa el archivo de Config/ como antes.
+var firebaseRaw = Environment.GetEnvironmentVariable("FIREBASE_CREDENTIALS_JSON");
+GoogleCredential firebaseCredential;
+
+if (!string.IsNullOrWhiteSpace(firebaseRaw))
+{
+    var firebaseJson = firebaseRaw.Trim();
+
+    // Si no empieza con '{' se asume que viene en Base64
+    if (!firebaseJson.StartsWith("{"))
+    {
+        try
+        {
+            firebaseJson = Encoding.UTF8.GetString(Convert.FromBase64String(firebaseJson));
+        }
+        catch (FormatException)
+        {
+            throw new InvalidOperationException(
+                "FIREBASE_CREDENTIALS_JSON no es un JSON válido ni un Base64 válido.");
+        }
+    }
+
+    firebaseCredential = GoogleCredential.FromJson(firebaseJson);
+}
+else
+{
+    var credentialPath = Path.Combine(builder.Environment.ContentRootPath, "Config", "archispace3d-firebase-adminsdk-fbsvc-4046e59569.json");
+
+    if (!File.Exists(credentialPath))
+    {
+        throw new InvalidOperationException(
+            "No se encontraron credenciales de Firebase: define la variable de entorno " +
+            "FIREBASE_CREDENTIALS_JSON o coloca el archivo en " + credentialPath);
+    }
+
+    firebaseCredential = GoogleCredential.FromFile(credentialPath);
+}
+
 FirebaseApp.Create(new AppOptions()
 {
-    Credential = GoogleCredential.FromFile(credentialPath)
+    Credential = firebaseCredential
 });
+
 // Add services to the container.
 
 builder.Services.AddControllers();

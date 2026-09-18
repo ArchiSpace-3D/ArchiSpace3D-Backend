@@ -22,7 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Update="Config\archispace3d-firebase-adminsdk-fbsvc-c474b08bcd.json">
+		<None Update="Config\archispace3d-firebase-adminsdk-fbsvc-4046e59569.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
