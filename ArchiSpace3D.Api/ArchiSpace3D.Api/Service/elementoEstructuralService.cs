@@ -3,9 +3,8 @@ using ArchiSpace3D.Api.Models;
 
 namespace ArchiSpace3D.Api.Service
 {
-    // Capa delgada por ahora: Elementoestructural no tiene reglas de negocio
-    // adicionales todavía, solo delega al DAO. Igual se mantiene la capa para
-    // no romper Controller -> Service -> Dao cuando aparezcan reglas nuevas.
+
+    
     public class elementoEstructuralService : elementoEstructuralServiceImpl
     {
         private readonly elementoEstructuralDAOImpl _dao;

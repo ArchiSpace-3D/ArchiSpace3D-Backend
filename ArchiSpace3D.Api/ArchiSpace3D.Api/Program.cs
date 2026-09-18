@@ -11,15 +11,12 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
 
-// Registro del DbContext con PostgreSQL (Database First / scaffold)
 builder.Services.AddDbContext<ArchiSpaceContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Swagger / OpenAPI -- con soporte para mandar el token Bearer desde la UI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -33,18 +30,15 @@ builder.Services.AddSwaggerGen(options =>
         Description = "Pega solo el token (sin la palabra 'Bearer')"
     });
 
-    // AddSecurityRequirement ahora recibe un delegate con el "document"
     options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
     {
         [new OpenApiSecuritySchemeReference("Bearer", document)] = []
     });
 });
 
-// SignalR: incluido en ASP.NET Core, no requiere paquete NuGet adicional
 builder.Services.AddSignalR();
 
-// CORS: SignalR con WebSockets necesita AllowCredentials(), por eso NO se
-// puede usar AllowAnyOrigin() a la vez.
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -56,7 +50,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-// ===== Autenticación JWT =====
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var jwtKey = jwtSettings["Key"]!;
 
@@ -78,10 +71,8 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
 
-    // Necesario para que SignalR pueda autenticar la conexión del Hub:
-    // SignalR con WebSockets no puede mandar el token en el header
-    // Authorization normal, lo manda como query string (?access_token=...),
-    // así que aquí se le dice a JwtBearer que también lo busque ahí.
+    
+
     options.Events = new JwtBearerEvents
     {
         OnMessageReceived = context =>
@@ -111,7 +102,6 @@ builder.Services.AddScoped<modeloimportadoDAOImpl, modeloImportadoDAO>();
 builder.Services.AddScoped<notificacionDAOImpl, notificacionDAO>();
 builder.Services.AddScoped<versiondiseñoDAOImpl, versiondisenoDAO>();
 
-// Services
 builder.Services.AddHttpClient<usuarioServiceImpl, usuarioService>();
 builder.Services.AddScoped<proyectoServiceImpl, proyectoService>();
 builder.Services.AddScoped<elementoEstructuralServiceImpl, elementoEstructuralService>();
@@ -122,13 +112,11 @@ builder.Services.AddScoped<modeloImportadoServiceImpl, modeloImportadoService>()
 builder.Services.AddScoped<notificacionServiceImpl, notificacionService>();
 builder.Services.AddScoped<versionDiseñoServiceImpl, versionDiseñoService>();
 
-// Autenticación
 builder.Services.AddSingleton<JwtTokenGenerator>();
 builder.Services.AddScoped<AuthServiceImpl, AuthService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -139,9 +127,8 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
 
-// El orden importa: Authentication SIEMPRE antes que Authorization.
-// Authentication responde "¿quién eres?" (lee y valida el token).
-// Authorization responde "¿tienes permiso?" ([Authorize], [Authorize(Roles=...)]).
+
+
 app.UseAuthentication();
 app.UseAuthorization();
 

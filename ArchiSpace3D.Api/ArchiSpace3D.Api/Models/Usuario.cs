@@ -70,7 +70,6 @@ public partial class Usuario
     [Column("fecharegistro", TypeName = "timestamp without time zone")]
     public DateTime? Fecharegistro { get; set; }
 
- 
     [JsonIgnore]
     [ValidateNever]
     [InverseProperty("IdarquitectoNavigation")]

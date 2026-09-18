@@ -31,8 +31,7 @@ namespace ArchiSpace3D.Api.Dao
 
         public async Task<Usuario?> GetByEmailAsync(string email)
         {
-            // Usado para login: aquí sí se necesita el registro completo (incluida Contrasena hasheada),
-            // por eso NO se usa AsNoTracking + no se filtran columnas.
+
             return await _context.Usuarios
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
@@ -71,18 +70,15 @@ namespace ArchiSpace3D.Api.Dao
                 return false;
             }
 
-            // Se actualizan explícitamente los campos editables.
-            // Contrasena, Rol y Activo NO se tocan aquí: eso debe pasar por
-            // operaciones específicas en la capa de Service (cambio de contraseña,
-            // cambio de rol, activar/desactivar), nunca por un update genérico.
+            
+
             existente.Nombre = usuario.Nombre;
             existente.Apellido = usuario.Apellido;
             existente.Telefono = usuario.Telefono;
             existente.Direccion = usuario.Direccion;
             existente.Tipodocumento = usuario.Tipodocumento;
             existente.Numerodocumento = usuario.Numerodocumento;
-            
-            // Actualizar foto de perfil si se envía
+
             if (usuario.Avatarurl != null)
             {
                 existente.Avatarurl = usuario.Avatarurl;
@@ -102,8 +98,7 @@ namespace ArchiSpace3D.Api.Dao
                 return false;
             }
 
-            // Borrado lógico en vez de físico: preserva integridad referencial
-            // con Proyecto e Invitacion (FKs de Idarquitecto/Idcliente).
+            
             existente.Activo = false;
             await _context.SaveChangesAsync();
             return true;

@@ -24,7 +24,6 @@ namespace ArchiSpace3D.Api.Controllers
             _service = service;
             _proyectoService = proyectoService;
         }
-       
 
         private async Task<IActionResult?> ValidarPertenenciaProyectoAsync(int idProyecto)
         {

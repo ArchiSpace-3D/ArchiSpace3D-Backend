@@ -47,8 +47,7 @@ namespace ArchiSpace3D.Api.Service
                 Mensaje = mensaje
             };
 
-            // Reutiliza CrearAsync -> mismo camino de guardado + push que una
-            // notificación creada manualmente desde el Controller.
+            
             await CrearAsync(notificacion);
         }
 
