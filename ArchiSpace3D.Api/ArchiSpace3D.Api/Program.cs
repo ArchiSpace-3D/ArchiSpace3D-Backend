@@ -58,11 +58,7 @@ FirebaseApp.Create(new AppOptions()
 {
     Credential = firebaseCredential
 });
-<<<<<<< HEAD
 
-// Add services to the container.
-=======
->>>>>>> 98c1e12ab6fef8b1a7de72817a843ab72a19c91c
 
 builder.Services.AddControllers();
 
