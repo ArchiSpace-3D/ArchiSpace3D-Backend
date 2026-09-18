@@ -27,9 +27,35 @@ public partial class Medicion
     [Column("distancia")]
     [Precision(10, 3)]
     public decimal? Distancia { get; set; }
-
     [Column("fechamedicion", TypeName = "timestamp without time zone")]
     public DateTime? Fechamedicion { get; set; }
+
+    [Column("etapa")]
+    public string? Etapa { get; set; }
+
+    [Column("partida")]
+    public string? Partida { get; set; }
+
+    [Column("descripcion")]
+    public string? Descripcion { get; set; }
+
+    [Column("veces")]
+    public int? Veces { get; set; }
+
+    [Column("largo")]
+    public decimal? Largo { get; set; }
+
+    [Column("ancho")]
+    public decimal? Ancho { get; set; }
+
+    [Column("alto")]
+    public decimal? Alto { get; set; }
+
+    [Column("unidad")]
+    public string? Unidad { get; set; }
+
+    [Column("totalparcial")]
+    public decimal? Totalparcial { get; set; }
 
     [JsonIgnore]
     [ValidateNever]
@@ -37,3 +63,4 @@ public partial class Medicion
     [InverseProperty("Medicions")]
     public virtual Proyecto IdproyectoNavigation { get; set; } = null!;
 }
+
