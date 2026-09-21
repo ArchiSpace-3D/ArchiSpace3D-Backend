@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Models;
+using ArchiSpace3D.Api.Models;
 using ArchiSpace3D.Api.Service;
 using ArchiSpace3D.Api.Util;
 using Microsoft.AspNetCore.Authorization;
@@ -52,11 +52,18 @@ namespace ArchiSpace3D.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Crear([FromBody] Medicion medicion)
         {
-            var noPertenece = await ValidarPertenenciaProyectoAsync(medicion.Idproyecto);
-            if (noPertenece is not null) return noPertenece;
+            try
+            {
+                var noPertenece = await ValidarPertenenciaProyectoAsync(medicion.Idproyecto);
+                if (noPertenece is not null) return noPertenece;
 
-            var creada = await _service.CreateAsync(medicion);
-            return CreatedAtAction(nameof(GetById), new { id = creada.Idmedicion }, creada);
+                var creada = await _service.CreateAsync(medicion);
+                return CreatedAtAction(nameof(GetById), new { id = creada.Idmedicion }, creada);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Error: {ex.Message}\nInner: {ex.InnerException?.Message}\nTrace: {ex.StackTrace}");
+            }
         }
 
         [Authorize(Roles = "Arquitecto")]

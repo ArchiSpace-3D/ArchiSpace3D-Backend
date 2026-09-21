@@ -1,6 +1,7 @@
 using ArchiSpace3D.Api.Models;
 using ArchiSpace3D.Api.Service;
 using ArchiSpace3D.Api.Util;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArchiSpace3D.Api.Controllers
@@ -100,14 +101,14 @@ namespace ArchiSpace3D.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Actualizar(int id, [FromBody] Usuario usuario)
+        public async Task<IActionResult> Actualizar(int id, [FromBody] ActualizarUsuarioDto dto)
         {
-            if (id != usuario.Idusuario)
+            if (id != dto.Idusuario)
             {
                 return BadRequest("El id de la URL no coincide con el del body.");
             }
 
-            var actualizado = await _usuarioService.ActualizarAsync(usuario);
+            var actualizado = await _usuarioService.ActualizarPerfilAsync(dto);
             return actualizado ? NoContent() : NotFound();
         }
 
@@ -167,7 +168,32 @@ namespace ArchiSpace3D.Api.Controllers
                 return StatusCode(500, $"Error interno: {ex.Message}");
             }
         }
+        [HttpPost("{id}/fcm-token")]
+        [Authorize]
+        public async Task<IActionResult> ActualizarFcmToken(int id, [FromBody] ActualizarFcmTokenDto dto)
+        {
+            if (User.GetIdUsuario() != id)
+            {
+                return Forbid();
+            }
 
+<<<<<<< HEAD
+=======
+            if (id != dto.Idusuario)
+            {
+                return BadRequest("El id de la URL no coincide con el del body.");
+            }
+
+            if (string.IsNullOrWhiteSpace(dto.Token))
+            {
+                return BadRequest("El token no puede estar vacío.");
+            }
+
+            var actualizado = await _usuarioService.ActualizarFcmTokenAsync(id, dto.Token);
+            return actualizado ? NoContent() : NotFound();
+        }
+
+>>>>>>> 2d917b69b209bd25b553ccde7232a38ca470587f
         [HttpDelete("{id}")]
         public async Task<IActionResult> Eliminar(int id)
         {

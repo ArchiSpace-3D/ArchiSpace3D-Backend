@@ -10,8 +10,9 @@ namespace ArchiSpace3D.Api.Service
         Task<Usuario?> LoginAsync(string email, string password);
         Task<bool> ActualizarAsync(Usuario usuario);
         Task<bool> EliminarAsync(int id);
-
+        Task<bool> ActualizarPerfilAsync(ActualizarUsuarioDto dto);
         Task<string?> ValidarTokenSupabaseAsync(string accessToken);
         Task<Usuario> LoginOrRegistrarGoogleAsync(string email);
+        Task<bool> ActualizarFcmTokenAsync(int idUsuario, string token);
     }
 }

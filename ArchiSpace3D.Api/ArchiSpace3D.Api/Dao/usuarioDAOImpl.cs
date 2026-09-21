@@ -12,5 +12,6 @@ namespace ArchiSpace3D.Api.Service
         Task<Usuario> CreateAsync(Usuario usuario);
         Task<bool> UpdateAsync(Usuario usuario);
         Task<bool> DeleteAsync(int id);
+        Task<bool> ActualizarFcmTokenAsync(int idUsuario, string token);
     }
 }

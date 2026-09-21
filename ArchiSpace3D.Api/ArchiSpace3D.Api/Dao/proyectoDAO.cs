@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Dao;
+using ArchiSpace3D.Api.Dao;
 using ArchiSpace3D.Api.Data;
 using ArchiSpace3D.Api.Models;
 using ArchiSpace3D.Api.Service;
@@ -61,7 +61,6 @@ namespace ArchiSpace3D.Api.Dao
             return proyecto;
 
         }
-
         public async Task<bool> UpdateAsync(Proyecto proyecto)
         {
             var existente = await _context.Proyectos.FirstOrDefaultAsync(p => p.Idproyecto == proyecto.Idproyecto);
@@ -74,7 +73,8 @@ namespace ArchiSpace3D.Api.Dao
             existente.Descripcion = proyecto.Descripcion;
             existente.Ubicacion = proyecto.Ubicacion;
             existente.Presupuesto = proyecto.Presupuesto;
-            existente.Fechaactualizacion = DateTime.Now;
+            existente.Estado = proyecto.Estado;
+            existente.Fechaactualizacion = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
 
             await _context.SaveChangesAsync();
             return true;

@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Data;
+using ArchiSpace3D.Api.Data;
 using ArchiSpace3D.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -60,6 +60,12 @@ namespace ArchiSpace3D.Api.Dao
         public async Task<Invitacion> CreateAsync(Invitacion invitacion)
         {
             invitacion.Fechacreacion = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+            
+            if (invitacion.Fechaexpiracion.HasValue)
+            {
+                invitacion.Fechaexpiracion = DateTime.SpecifyKind(invitacion.Fechaexpiracion.Value, DateTimeKind.Unspecified);
+            }
+            
             invitacion.Usada ??= false;
 
             _context.Invitacions.Add(invitacion);
@@ -79,6 +85,14 @@ namespace ArchiSpace3D.Api.Dao
 
             existente.Usada = true;
             existente.Idclienteusado = idClienteUsado;
+
+            var proyecto = await _context.Proyectos
+                .FirstOrDefaultAsync(p => p.Idproyecto == existente.Idproyecto);
+            
+            if (proyecto != null)
+            {
+                proyecto.Idcliente = idClienteUsado;
+            }
 
             await _context.SaveChangesAsync();
             return true;

@@ -31,3 +31,7 @@ $RECYCLE.BIN/
 # Carpetas de VS y VS Code
 .vs/
 .vscode/
+
+
+Config/*.jsonArchiSpace3D.Api/Config/*firebase*.json
+**/*firebase*.json

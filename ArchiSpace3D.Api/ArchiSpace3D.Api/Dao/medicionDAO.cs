@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Data;
+using ArchiSpace3D.Api.Data;
 using ArchiSpace3D.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,7 +38,14 @@ namespace ArchiSpace3D.Api.Dao
 
         public async Task<Medicion> CreateAsync(Medicion medicion)
         {
-            medicion.Fechamedicion ??= DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+            if (medicion.Fechamedicion.HasValue)
+            {
+                medicion.Fechamedicion = DateTime.SpecifyKind(medicion.Fechamedicion.Value, DateTimeKind.Unspecified);
+            }
+            else
+            {
+                medicion.Fechamedicion = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+            }
 
             _context.Medicions.Add(medicion);
             await _context.SaveChangesAsync();
