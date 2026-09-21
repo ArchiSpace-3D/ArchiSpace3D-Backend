@@ -42,7 +42,7 @@ if (!string.IsNullOrWhiteSpace(firebaseRaw))
 }
 else
 {
-    var credentialPath = Path.Combine(builder.Environment.ContentRootPath, "Config", "archispace3d-firebase-adminsdk-fbsvc-4046e59569.json");
+    var credentialPath = Path.Combine(builder.Environment.ContentRootPath, "Config", "archispace3d-firebase-adminsdk-fbsvc-4d0bd37b46.json");
 
     if (!File.Exists(credentialPath))
     {
