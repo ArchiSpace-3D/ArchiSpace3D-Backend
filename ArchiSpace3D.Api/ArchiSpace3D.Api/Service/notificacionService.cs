@@ -71,29 +71,23 @@ namespace ArchiSpace3D.Api.Service
 
         private async Task EmpujarPushAsync(Notificacion notificacion)
         {
-            Console.WriteLine($"🔍 EmpujarPushAsync: buscando proyecto {notificacion.Idproyecto}");
 
             var proyecto = await _proyectoDao.GetByIdAsync(notificacion.Idproyecto);
             if (proyecto is null)
             {
-                Console.WriteLine("❌ Proyecto no encontrado.");
                 return;
             }
 
-            Console.WriteLine($"🔍 Proyecto encontrado. Idcliente = {proyecto.Idcliente}");
 
             var cliente = await _usuarioDao.GetByIdAsync(proyecto.Idcliente);
             if (cliente is null)
             {
-                Console.WriteLine("❌ Cliente no encontrado.");
                 return;
             }
 
-            Console.WriteLine($"🔍 Cliente encontrado: {cliente.Email}. FcmToken = '{cliente.Fcmtoken}'");
 
             if (string.IsNullOrEmpty(cliente.Fcmtoken))
             {
-                Console.WriteLine("❌ El cliente no tiene FcmToken guardado.");
                 return;
             }
 

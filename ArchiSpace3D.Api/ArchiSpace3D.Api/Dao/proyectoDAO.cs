@@ -89,7 +89,7 @@ namespace ArchiSpace3D.Api.Dao
                 return false;
             }
 
-            // Eliminar dependencias manualmente para evitar el error de llave foránea (InternalServerError 500)
+            
             
             var mediciones = _context.Medicions.Where(m => m.Idproyecto == id);
             _context.Medicions.RemoveRange(mediciones);
