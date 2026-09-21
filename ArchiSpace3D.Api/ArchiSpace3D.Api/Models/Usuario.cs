@@ -70,13 +70,10 @@ public partial class Usuario
     [Column("fecharegistro", TypeName = "timestamp without time zone")]
     public DateTime? Fecharegistro { get; set; }
 
-<<<<<<< HEAD
-=======
     [Column("fcmtoken")]
     [StringLength(255)]
     public string? Fcmtoken { get; set; }
 
->>>>>>> 2d917b69b209bd25b553ccde7232a38ca470587f
     [JsonIgnore]
     [ValidateNever]
     [InverseProperty("IdarquitectoNavigation")]

@@ -177,8 +177,6 @@ namespace ArchiSpace3D.Api.Controllers
                 return Forbid();
             }
 
-<<<<<<< HEAD
-=======
             if (id != dto.Idusuario)
             {
                 return BadRequest("El id de la URL no coincide con el del body.");
@@ -193,7 +191,6 @@ namespace ArchiSpace3D.Api.Controllers
             return actualizado ? NoContent() : NotFound();
         }
 
->>>>>>> 2d917b69b209bd25b553ccde7232a38ca470587f
         [HttpDelete("{id}")]
         public async Task<IActionResult> Eliminar(int id)
         {
