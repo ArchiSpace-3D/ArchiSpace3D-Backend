@@ -6,10 +6,12 @@ namespace ArchiSpace3D.Api.Service
     public class proyectoService : proyectoServiceImpl
     {
         private readonly proyectoDAOImpl _proyectoDao;
+        private readonly notificacionServiceImpl _notificacionService;
 
-        public proyectoService(proyectoDAOImpl proyectoDao)
+        public proyectoService(proyectoDAOImpl proyectoDao, notificacionServiceImpl notificacionService)
         {
             _proyectoDao = proyectoDao;
+            _notificacionService = notificacionService;
         }
 
         public async Task<IEnumerable<Proyecto>> GetAllAsync() => await _proyectoDao.GetAllAsync();
@@ -33,7 +35,18 @@ namespace ArchiSpace3D.Api.Service
             return await _proyectoDao.CreateAsync(proyecto);
         }
 
-        public async Task<bool> ActualizarAsync(Proyecto proyecto) => await _proyectoDao.UpdateAsync(proyecto);
+        public async Task<bool> ActualizarAsync(Proyecto proyecto)
+        {
+            var result = await _proyectoDao.UpdateAsync(proyecto);
+            if (result)
+            {
+                await _notificacionService.NotificarCambioAsync(
+                    proyecto.Idproyecto, 
+                    "Edicion", 
+                    $"El proyecto ha sido modificado.");
+            }
+            return result;
+        }
 
         public async Task<bool> EliminarAsync(int id) => await _proyectoDao.DeleteAsync(id);
 
