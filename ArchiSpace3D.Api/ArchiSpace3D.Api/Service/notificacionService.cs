@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Dao;
+using ArchiSpace3D.Api.Dao;
 using ArchiSpace3D.Api.Hubs;
 using ArchiSpace3D.Api.Models;
 using Microsoft.AspNetCore.SignalR;
@@ -73,13 +73,13 @@ namespace ArchiSpace3D.Api.Service
         {
 
             var proyecto = await _proyectoDao.GetByIdAsync(notificacion.Idproyecto);
-            if (proyecto is null)
+            if (proyecto is null || proyecto.Idcliente == null)
             {
                 return;
             }
 
 
-            var cliente = await _usuarioDao.GetByIdAsync(proyecto.Idcliente);
+            var cliente = await _usuarioDao.GetByIdAsync(proyecto.Idcliente.Value);
             if (cliente is null)
             {
                 return;
