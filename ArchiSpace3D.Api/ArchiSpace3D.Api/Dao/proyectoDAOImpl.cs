@@ -12,5 +12,7 @@ namespace ArchiSpace3D.Api.Dao
         Task<Proyecto> CreateAsync(Proyecto proyecto);
         Task<bool> UpdateAsync(Proyecto proyecto);
         Task<bool> DeleteAsync(int id);
+        Task<bool> ActivarSalaAsync(int idProyecto, string codigo);
+        Task<bool> ActualizarImagenAsync(int idProyecto, string imagenUrl);
     }
 }

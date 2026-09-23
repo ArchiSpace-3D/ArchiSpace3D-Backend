@@ -12,5 +12,8 @@ namespace ArchiSpace3D.Api.Service
         Task<bool> ActualizarAsync(Proyecto proyecto);
         Task<bool> EliminarAsync(int id);
         Task<bool?> TieneAccesoAsync(int idProyecto, int idUsuario, string rol);
+        Task<(bool Success, string Codigo)> ActivarSalaAsync(int idProyecto);
+        Task<bool> ActualizarImagenAsync(int idProyecto, string imagenUrl);
+
     }
 }

@@ -57,6 +57,10 @@ public partial class Proyecto
     [Column("fechacreacion", TypeName = "timestamp without time zone")]
     public DateTime? Fechacreacion { get; set; }
 
+    [Column("imagenurl")]
+    [StringLength(1024)]
+    public string? Imagenurl { get; set; }
+
     [JsonIgnore]
     [ValidateNever]
     [InverseProperty("IdproyectoNavigation")]

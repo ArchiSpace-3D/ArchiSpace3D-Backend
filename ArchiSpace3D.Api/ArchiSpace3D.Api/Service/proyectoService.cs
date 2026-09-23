@@ -52,5 +52,16 @@ namespace ArchiSpace3D.Api.Service
                 ? proyecto.Idarquitecto == idUsuario
                 : proyecto.Idcliente == idUsuario;
         }
+        public async Task<(bool Success, string Codigo)> ActivarSalaAsync(int idProyecto)
+        {
+            var codigo = $"SALA-{Guid.NewGuid().ToString().Substring(0, 6).ToUpper()}";
+            var ok = await _proyectoDao.ActivarSalaAsync(idProyecto, codigo);
+            return (ok, codigo);
+        }
+
+        public async Task<bool> ActualizarImagenAsync(int idProyecto, string imagenUrl)
+        {
+            return await _proyectoDao.ActualizarImagenAsync(idProyecto, imagenUrl);
+        }
     }
 }

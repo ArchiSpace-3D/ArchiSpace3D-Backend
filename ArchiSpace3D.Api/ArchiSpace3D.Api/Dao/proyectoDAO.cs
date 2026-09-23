@@ -93,8 +93,30 @@ namespace ArchiSpace3D.Api.Dao
             await _context.SaveChangesAsync();
             return true;
         }
+        public async Task<bool> ActivarSalaAsync(int idProyecto, string codigo)
+        {
+            var existente = await _context.Proyectos.FirstOrDefaultAsync(p => p.Idproyecto == idProyecto);
+            if (existente is null) return false;
 
+            existente.Codigosalaactiva = codigo;
+            existente.Fechaaperturasala = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+            existente.Fechaactualizacion = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> ActualizarImagenAsync(int idProyecto, string imagenUrl)
+        {
+            var existente = await _context.Proyectos.FirstOrDefaultAsync(p => p.Idproyecto == idProyecto);
+            if (existente is null) return false;
+
+            existente.Imagenurl = imagenUrl;
+            await _context.SaveChangesAsync();
+            return true;
         }
 
     }
+
+}
 
