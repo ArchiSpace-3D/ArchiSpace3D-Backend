@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,10 +17,10 @@ public partial class Proyecto
     public int Idproyecto { get; set; }
 
     [Column("idarquitecto")]
-    public int Idarquitecto { get; set; }
+    public int? Idarquitecto { get; set; }
 
     [Column("idcliente")]
-    public int Idcliente { get; set; }
+    public int? Idcliente { get; set; }
 
     [Column("nombre")]
     [StringLength(255)]
@@ -70,13 +70,13 @@ public partial class Proyecto
     [ValidateNever]
     [ForeignKey("Idarquitecto")]
     [InverseProperty("ProyectoIdarquitectoNavigations")]
-    public virtual Usuario IdarquitectoNavigation { get; set; } = null!;
+    public virtual Usuario? IdarquitectoNavigation { get; set; }
 
     [JsonIgnore]
     [ValidateNever]
     [ForeignKey("Idcliente")]
     [InverseProperty("ProyectoIdclienteNavigations")]
-    public virtual Usuario IdclienteNavigation { get; set; } = null!;
+    public virtual Usuario? IdclienteNavigation { get; set; }
 
     [JsonIgnore]
     [ValidateNever]

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using ArchiSpace3D.Api.Models;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +29,8 @@ public partial class ArchiSpaceContext : DbContext
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
     public virtual DbSet<Versiondiseno> Versiondisenos { get; set; }
+
+    public virtual DbSet<Sugerencia> Sugerencias { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
