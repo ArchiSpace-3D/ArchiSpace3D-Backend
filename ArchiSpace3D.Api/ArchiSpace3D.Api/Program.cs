@@ -18,13 +18,12 @@ var builder = WebApplication.CreateBuilder(args);
 // la key no vive en el repo ni en la imagen. En local, si la variable no
 // existe, se usa el archivo de Config/ como antes.
 var firebaseRaw = Environment.GetEnvironmentVariable("FIREBASE_CREDENTIALS_JSON");
-GoogleCredential firebaseCredential;
+GoogleCredential? firebaseCredential = null;
 
 if (!string.IsNullOrWhiteSpace(firebaseRaw))
 {
     var firebaseJson = firebaseRaw.Trim();
 
-    // Si no empieza con '{' se asume que viene en Base64
     if (!firebaseJson.StartsWith("{"))
     {
         try
@@ -33,12 +32,14 @@ if (!string.IsNullOrWhiteSpace(firebaseRaw))
         }
         catch (FormatException)
         {
-            throw new InvalidOperationException(
-                "FIREBASE_CREDENTIALS_JSON no es un JSON válido ni un Base64 válido.");
+            Console.WriteLine("Advertencia: FIREBASE_CREDENTIALS_JSON no es JSON ni Base64 valido.");
         }
     }
 
-    firebaseCredential = GoogleCredential.FromJson(firebaseJson);
+    if (firebaseJson.StartsWith("{"))
+    {
+        firebaseCredential = GoogleCredential.FromJson(firebaseJson);
+    }
 }
 else
 {
@@ -46,18 +47,21 @@ else
 
     if (!File.Exists(credentialPath))
     {
-        throw new InvalidOperationException(
-            "No se encontraron credenciales de Firebase: define la variable de entorno " +
-            "FIREBASE_CREDENTIALS_JSON o coloca el archivo en " + credentialPath);
+        Console.WriteLine("Advertencia: No se encontraron credenciales de Firebase en " + credentialPath + ". Push desactivado.");
     }
-
-    firebaseCredential = GoogleCredential.FromFile(credentialPath);
+    else
+    {
+        firebaseCredential = GoogleCredential.FromFile(credentialPath);
+    }
 }
 
-FirebaseApp.Create(new AppOptions()
+if (firebaseCredential != null)
 {
-    Credential = firebaseCredential
-});
+    FirebaseApp.Create(new AppOptions()
+    {
+        Credential = firebaseCredential
+    });
+}
 
 
 builder.Services.AddControllers();
@@ -183,3 +187,4 @@ app.MapControllers();
 app.MapHub<SalaColaborativaHub>("/hubs/sala");
 
 app.Run();
+
