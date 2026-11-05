@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Models;
+using ArchiSpace3D.Api.Models;
 
 namespace ArchiSpace3D.Api.Dao
 {
@@ -7,6 +7,7 @@ namespace ArchiSpace3D.Api.Dao
         Task<IEnumerable<Espaciofisico>> GetAllAsync();
         Task<Espaciofisico?> GetByIdAsync(int id);
         Task<Espaciofisico?> GetByProyectoAsync(int idProyecto);
+        Task<IEnumerable<Espaciofisico>> GetListByProyectoAsync(int idProyecto);
         Task<bool> ExistsByProyectoAsync(int idProyecto);
         Task<Espaciofisico> CreateAsync(Espaciofisico espacio);
         Task<bool> UpdateAsync(Espaciofisico espacio);

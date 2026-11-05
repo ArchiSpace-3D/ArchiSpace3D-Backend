@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Dao;
+using ArchiSpace3D.Api.Dao;
 using ArchiSpace3D.Api.Models;
 
 namespace ArchiSpace3D.Api.Service
@@ -19,14 +19,11 @@ namespace ArchiSpace3D.Api.Service
         public async Task<Espaciofisico?> GetByProyectoAsync(int idProyecto) =>
             await _dao.GetByProyectoAsync(idProyecto);
 
+        public async Task<IEnumerable<Espaciofisico>> GetListByProyectoAsync(int idProyecto) =>
+            await _dao.GetListByProyectoAsync(idProyecto);
+
         public async Task<Espaciofisico> CrearAsync(Espaciofisico espacio)
         {
-            
-            if (await _dao.ExistsByProyectoAsync(espacio.Idproyecto))
-            {
-                throw new InvalidOperationException("Este proyecto ya tiene un espacio físico registrado.");
-            }
-
             return await _dao.CreateAsync(espacio);
         }
 

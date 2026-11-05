@@ -64,7 +64,7 @@ public partial class Proyecto
     [JsonIgnore]
     [ValidateNever]
     [InverseProperty("IdproyectoNavigation")]
-    public virtual Espaciofisico? Espaciofisico { get; set; }
+    public virtual ICollection<Espaciofisico> Espaciofisicos { get; set; } = new List<Espaciofisico>();
 
     [JsonIgnore]
     [ValidateNever]

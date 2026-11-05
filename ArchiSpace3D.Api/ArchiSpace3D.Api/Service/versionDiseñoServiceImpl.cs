@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Models;
+using ArchiSpace3D.Api.Models;
 
 namespace ArchiSpace3D.Api.Service
 {
@@ -9,6 +9,7 @@ namespace ArchiSpace3D.Api.Service
         Task<IEnumerable<Versiondiseno>> GetByProyectoAsync(int idProyecto);
         Task<Versiondiseno?> GetVersionActualAsync(int idProyecto);
         Task<Versiondiseno> CrearAsync(Versiondiseno version);
+        Task<bool> ActualizarAsync(Versiondiseno version);
         Task<bool> MarcarComoActualAsync(int id, int idProyecto);
         Task<bool> EliminarAsync(int id);
     }

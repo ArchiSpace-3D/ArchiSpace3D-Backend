@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Models;
+using ArchiSpace3D.Api.Models;
 
 namespace ArchiSpace3D.Api.Service
 {
@@ -7,6 +7,7 @@ namespace ArchiSpace3D.Api.Service
         Task<IEnumerable<Espaciofisico>> GetAllAsync();
         Task<Espaciofisico?> GetByIdAsync(int id);
         Task<Espaciofisico?> GetByProyectoAsync(int idProyecto);
+        Task<IEnumerable<Espaciofisico>> GetListByProyectoAsync(int idProyecto);
         Task<Espaciofisico> CrearAsync(Espaciofisico espacio);
         Task<bool> ActualizarAsync(Espaciofisico espacio);
         Task<bool> EliminarAsync(int id);

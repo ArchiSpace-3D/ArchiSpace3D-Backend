@@ -3,23 +3,27 @@ using ArchiSpace3D.Api.Data;
 using ArchiSpace3D.Api.Hubs;
 using ArchiSpace3D.Api.Service;
 using ArchiSpace3D.Api.Util;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using System.Text;
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
+
+// Permitir DateTime (UTC y Unspecified) en columnas 'timestamp without time zone' de PostgreSQL
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Firebase Admin SDK: en producción (Railway) las credenciales vienen de la
 // variable de entorno FIREBASE_CREDENTIALS_JSON (JSON completo o Base64), así
 // la key no vive en el repo ni en la imagen. En local, si la variable no
-// existe, se usa el archivo de Config/ como antes.
+// existe, se busca cualquier archivo de credenciales de Firebase en Config/.
 var firebaseRaw = Environment.GetEnvironmentVariable("FIREBASE_CREDENTIALS_JSON");
 GoogleCredential? firebaseCredential = null;
 
+#pragma warning disable CS0618
 if (!string.IsNullOrWhiteSpace(firebaseRaw))
 {
     var firebaseJson = firebaseRaw.Trim();
@@ -43,26 +47,34 @@ if (!string.IsNullOrWhiteSpace(firebaseRaw))
 }
 else
 {
-    var credentialPath = Path.Combine(builder.Environment.ContentRootPath, "Config", "archispace3d-firebase-adminsdk-fbsvc-4d0bd37b46.json");
+    var configDir = Path.Combine(builder.Environment.ContentRootPath, "Config");
+    var credentialPath = Path.Combine(configDir, "archispace3d-firebase-adminsdk-fbsvc-4d0bd37b46.json");
+
+    if (!File.Exists(credentialPath) && Directory.Exists(configDir))
+    {
+        var fallback = Directory.GetFiles(configDir, "*firebase*.json").FirstOrDefault();
+        if (!string.IsNullOrEmpty(fallback))
+            credentialPath = fallback;
+    }
 
     if (!File.Exists(credentialPath))
     {
-        Console.WriteLine("Advertencia: No se encontraron credenciales de Firebase en " + credentialPath + ". Push desactivado.");
+        Console.WriteLine("Advertencia: No se encontraron credenciales de Firebase en Config/. Push desactivado.");
     }
     else
     {
         firebaseCredential = GoogleCredential.FromFile(credentialPath);
     }
 }
+#pragma warning restore CS0618
 
-if (firebaseCredential != null)
+if (firebaseCredential != null && FirebaseApp.DefaultInstance == null)
 {
-    FirebaseApp.Create(new AppOptions()
+    FirebaseApp.Create(new AppOptions
     {
         Credential = firebaseCredential
     });
 }
-
 
 builder.Services.AddControllers();
 
@@ -89,7 +101,6 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddSignalR();
-
 
 builder.Services.AddCors(options =>
 {
@@ -122,8 +133,6 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = jwtSettings["Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
-
-    
 
     options.Events = new JwtBearerEvents
     {
@@ -170,6 +179,52 @@ builder.Services.AddScoped<AuthServiceImpl, AuthService>();
 
 var app = builder.Build();
 
+// Auto-asegurar columnas y tablas críticas en PostgreSQL al arrancar (idempotente)
+using (var scope = app.Services.CreateScope())
+{
+    try
+    {
+        var db = scope.ServiceProvider.GetRequiredService<ArchiSpaceContext>();
+        const string ensureSchemaSql = @"
+            ALTER TABLE public.medicion ADD COLUMN IF NOT EXISTS etapa character varying;
+            ALTER TABLE public.medicion ADD COLUMN IF NOT EXISTS partida character varying;
+            ALTER TABLE public.medicion ADD COLUMN IF NOT EXISTS descripcion character varying;
+            ALTER TABLE public.medicion ADD COLUMN IF NOT EXISTS veces integer DEFAULT 1;
+            ALTER TABLE public.medicion ADD COLUMN IF NOT EXISTS largo numeric;
+            ALTER TABLE public.medicion ADD COLUMN IF NOT EXISTS ancho numeric;
+            ALTER TABLE public.medicion ADD COLUMN IF NOT EXISTS alto numeric;
+            ALTER TABLE public.medicion ADD COLUMN IF NOT EXISTS unidad character varying;
+            ALTER TABLE public.medicion ADD COLUMN IF NOT EXISTS totalparcial numeric;
+
+            ALTER TABLE public.proyecto ADD COLUMN IF NOT EXISTS imagenurl character varying(1024);
+            ALTER TABLE public.proyecto ADD COLUMN IF NOT EXISTS codigosalaactiva character varying(20);
+            ALTER TABLE public.proyecto ADD COLUMN IF NOT EXISTS fechaaperturasala timestamp without time zone;
+            ALTER TABLE public.usuario ADD COLUMN IF NOT EXISTS avatar_url character varying(1024);
+            ALTER TABLE public.usuario ADD COLUMN IF NOT EXISTS fcmtoken character varying(512);
+            ALTER TABLE public.versiondiseno ADD COLUMN IF NOT EXISTS puntosreferencia jsonb DEFAULT '{}'::jsonb;
+
+            ALTER TABLE public.espaciofisico DROP CONSTRAINT IF EXISTS espaciofisico_idproyecto_key;
+            DROP INDEX IF EXISTS public.espaciofisico_idproyecto_key;
+
+            CREATE TABLE IF NOT EXISTS public.sugerencia (
+                idsugerencia serial PRIMARY KEY,
+                idproyecto integer NOT NULL REFERENCES public.proyecto(idproyecto) ON DELETE CASCADE,
+                idusuario integer NOT NULL REFERENCES public.usuario(idusuario) ON DELETE CASCADE,
+                titulo character varying(255) NOT NULL,
+                descripcion text NOT NULL,
+                estado character varying(50) DEFAULT 'Pendiente',
+                fechacreacion timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+            );
+        ";
+        await db.Database.ExecuteSqlRawAsync(ensureSchemaSql);
+        Console.WriteLine("Esquema de base de datos verificado correctamente.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Advertencia verificando esquema BD: {ex.Message}");
+    }
+}
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -177,14 +232,13 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
 
-
-
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapGet("/", () => Results.Ok(new { status = "ok", service = "ArchiSpace3D.Api" }));
 
 app.MapControllers();
 
 app.MapHub<SalaColaborativaHub>("/hubs/sala");
 
 app.Run();
-

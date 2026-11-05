@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Service;
+using ArchiSpace3D.Api.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +21,6 @@ namespace ArchiSpace3D.Api.Controllers
             _authService = authService;
         }
 
-        
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
@@ -34,9 +33,8 @@ namespace ArchiSpace3D.Api.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                return Unauthorized(ex.Message); 
+                return Unauthorized(ex.Message);
             }
         }
     }
 }
-

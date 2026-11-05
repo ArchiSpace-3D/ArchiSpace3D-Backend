@@ -1,4 +1,5 @@
-﻿using FirebaseAdmin.Messaging;
+using FirebaseAdmin;
+using FirebaseAdmin.Messaging;
 
 namespace ArchiSpace3D.Api.Service
 {
@@ -8,11 +9,16 @@ namespace ArchiSpace3D.Api.Service
         {
             if (string.IsNullOrWhiteSpace(token))
             {
-                Console.WriteLine("⚠️ EnviarNotificacionAsync: token vacío, no se envía nada.");
                 return;
             }
 
-            var message = new Message()
+            if (FirebaseApp.DefaultInstance == null || FirebaseMessaging.DefaultInstance == null)
+            {
+                return;
+            }
+
+#pragma warning disable CS0618
+            var message = new Message
             {
                 Token = token,
                 Notification = new Notification
@@ -22,15 +28,16 @@ namespace ArchiSpace3D.Api.Service
                 },
                 Data = data
             };
+#pragma warning restore CS0618
 
             try
             {
                 var response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
-                Console.WriteLine($"✅ Push enviado. MessageId: {response}");
+                Console.WriteLine($"Push enviado. MessageId: {response}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Error enviando push: {ex.GetType().Name} - {ex.Message}");
+                Console.WriteLine($"Error enviando push: {ex.GetType().Name} - {ex.Message}");
             }
         }
     }

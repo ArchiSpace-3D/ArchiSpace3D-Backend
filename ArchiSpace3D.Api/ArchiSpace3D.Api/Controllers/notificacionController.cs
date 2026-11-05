@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Models;
+using ArchiSpace3D.Api.Models;
 using ArchiSpace3D.Api.Service;
 using ArchiSpace3D.Api.Util;
 using Microsoft.AspNetCore.Authorization;
@@ -27,38 +27,55 @@ namespace ArchiSpace3D.Api.Controllers
             return acceso == false ? Forbid() : null;
         }
 
+        private async Task<List<Notificacion>> ObtenerNotificacionesUsuarioAsync(int idUsuario, string rol)
+        {
+            var proyectos = string.Equals(rol, "Arquitecto", StringComparison.OrdinalIgnoreCase)
+                ? await _proyectoService.GetByArquitectoAsync(idUsuario)
+                : await _proyectoService.GetByClienteAsync(idUsuario);
+
+            var resultado = new List<Notificacion>();
+            foreach (var p in proyectos)
+            {
+                var lista = await _service.GetByProyectoAsync(p.Idproyecto);
+                resultado.AddRange(lista);
+            }
+
+            return resultado
+                .OrderByDescending(n => n.Fechaenvio)
+                .ToList();
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _service.GetAllAsync());
+            return Ok(await ObtenerNotificacionesUsuarioAsync(User.GetIdUsuario(), User.GetRol()));
         }
 
         [HttpGet("mis-notificaciones")]
         public async Task<IActionResult> GetMisNotificaciones()
         {
-            int idUsuario = User.GetIdUsuario();
-            string rol = User.GetRol();
+            return Ok(await ObtenerNotificacionesUsuarioAsync(User.GetIdUsuario(), User.GetRol()));
+        }
 
-            var proyectos = rol == "Arquitecto"
-                ? await _proyectoService.GetByArquitectoAsync(idUsuario)
-                : await _proyectoService.GetByClienteAsync(idUsuario);
+        [HttpGet("usuario/{idUsuario}")]
+        public async Task<IActionResult> GetByUsuario(int idUsuario)
+        {
+            if (idUsuario != User.GetIdUsuario())
+                return Forbid();
 
-            var listasPorProyecto = await Task.WhenAll(
-                proyectos.Select(p => _service.GetByProyectoAsync(p.Idproyecto)));
-
-            var notificaciones = listasPorProyecto
-                .SelectMany(lista => lista)
-                .OrderByDescending(n => n.Fechaenvio)
-                .ToList();
-
-            return Ok(notificaciones);
+            return Ok(await ObtenerNotificacionesUsuarioAsync(idUsuario, User.GetRol()));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var notificacion = await _service.GetByIdAsync(id);
-            return notificacion is null ? NotFound() : Ok(notificacion);
+            if (notificacion is null) return NotFound();
+
+            var noPertenece = await ValidarPertenenciaProyectoAsync(notificacion.Idproyecto);
+            if (noPertenece is not null) return noPertenece;
+
+            return Ok(notificacion);
         }
 
         [HttpGet("proyecto/{idProyecto}")]
@@ -103,7 +120,6 @@ namespace ArchiSpace3D.Api.Controllers
             return actualizado ? NoContent() : NotFound();
         }
 
-        [Authorize(Roles = "Arquitecto")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Eliminar(int id)
         {

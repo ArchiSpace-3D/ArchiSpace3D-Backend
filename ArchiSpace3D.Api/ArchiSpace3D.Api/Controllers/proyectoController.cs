@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Models;
+using ArchiSpace3D.Api.Models;
 using ArchiSpace3D.Api.Service;
 using ArchiSpace3D.Api.Util;
 using Microsoft.AspNetCore.Authorization;
@@ -31,7 +31,7 @@ namespace ArchiSpace3D.Api.Controllers
             var idUsuario = User.GetIdUsuario();
             var rol = User.GetRol();
 
-            return rol == "Arquitecto"
+            return string.Equals(rol, "Arquitecto", StringComparison.OrdinalIgnoreCase)
                 ? Ok(await _proyectoService.GetByArquitectoAsync(idUsuario))
                 : Ok(await _proyectoService.GetByClienteAsync(idUsuario));
         }
@@ -52,7 +52,8 @@ namespace ArchiSpace3D.Api.Controllers
             var idUsuario = User.GetIdUsuario();
             var rol = User.GetRol();
 
-            if (rol != "Arquitecto" || idArquitecto != idUsuario) return Forbid();
+            if (!string.Equals(rol, "Arquitecto", StringComparison.OrdinalIgnoreCase) || idArquitecto != idUsuario)
+                return Forbid();
 
             return Ok(await _proyectoService.GetByArquitectoAsync(idArquitecto));
         }
@@ -63,7 +64,8 @@ namespace ArchiSpace3D.Api.Controllers
             var idUsuario = User.GetIdUsuario();
             var rol = User.GetRol();
 
-            if (rol != "Cliente" || idCliente != idUsuario) return Forbid();
+            if (!string.Equals(rol, "Cliente", StringComparison.OrdinalIgnoreCase) || idCliente != idUsuario)
+                return Forbid();
 
             return Ok(await _proyectoService.GetByClienteAsync(idCliente));
         }
@@ -74,6 +76,11 @@ namespace ArchiSpace3D.Api.Controllers
         {
             try
             {
+                if (proyecto.Idarquitecto == null || proyecto.Idarquitecto <= 0)
+                {
+                    proyecto.Idarquitecto = User.GetIdUsuario();
+                }
+
                 var creado = await _proyectoService.CrearAsync(proyecto);
                 return CreatedAtAction(nameof(GetById), new { id = creado.Idproyecto }, creado);
             }
@@ -115,68 +122,67 @@ namespace ArchiSpace3D.Api.Controllers
             if (proyecto is null) return NotFound();
 
             if (User.GetIdUsuario() != proyecto.Idarquitecto)
-                return Forbid(); // solo el arquitecto dueño puede activar la sala
+                return Forbid();
 
             var (success, codigo) = await _proyectoService.ActivarSalaAsync(id);
             return success ? Ok(new { codigo }) : StatusCode(500);
         }
 
         [HttpPost("{id}/imagen")]
-[Authorize]
-public async Task<IActionResult> UploadImagen(int id, IFormFile file)
-{
-    var proyecto = await _proyectoService.GetByIdAsync(id);
-    if (proyecto is null) return NotFound();
-
-    if (User.GetIdUsuario() != proyecto.Idarquitecto)
-        return Forbid(); // solo el arquitecto dueño del proyecto puede subir la imagen
-
-    if (file == null || file.Length == 0)
-        return BadRequest("No se proporcionó ningún archivo.");
-
-    try
-    {
-        var config = HttpContext.RequestServices.GetService<IConfiguration>();
-        string supabaseUrl = config?["Supabase:Url"] ?? "https://ejxfilcbchzhmbblrvve.supabase.co";
-        string secretKey = config?["Supabase:SecretKey"] ?? "";
-
-        if (string.IsNullOrEmpty(secretKey))
+        [Authorize]
+        public async Task<IActionResult> UploadImagen(int id, IFormFile file)
         {
-            secretKey = "sb_secret_" + "gmGnEFT4AjjQu644dDyT1A_-M1d1SUL";
+            var proyecto = await _proyectoService.GetByIdAsync(id);
+            if (proyecto is null) return NotFound();
+
+            if (User.GetIdUsuario() != proyecto.Idarquitecto)
+                return Forbid();
+
+            if (file == null || file.Length == 0)
+                return BadRequest("No se proporcionó ningún archivo.");
+
+            try
+            {
+                var config = HttpContext.RequestServices.GetService<IConfiguration>();
+                string supabaseUrl = config?["Supabase:Url"] ?? "https://ejxfilcbchzhmbblrvve.supabase.co";
+                string secretKey = config?["Supabase:SecretKey"] ?? "";
+
+                if (string.IsNullOrEmpty(secretKey))
+                {
+                    secretKey = "sb_secret_" + "gmGnEFT4AjjQu644dDyT1A_-M1d1SUL";
+                }
+
+                string ext = Path.GetExtension(file.FileName);
+                if (string.IsNullOrWhiteSpace(ext)) ext = ".jpg";
+                string fileName = $"proyecto_{id}_{DateTime.UtcNow.Ticks}{ext}";
+                string storageUrl = $"{supabaseUrl}/storage/v1/object/proyectos/{fileName}";
+
+                using var httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Add("apikey", secretKey);
+                httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {secretKey}");
+
+                using var stream = file.OpenReadStream();
+                var content = new StreamContent(stream);
+                content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType ?? "image/jpeg");
+
+                var response = await httpClient.PostAsync(storageUrl, content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    return StatusCode((int)response.StatusCode, $"Error subiendo a Supabase: {error}");
+                }
+
+                string publicUrl = $"{supabaseUrl}/storage/v1/object/public/proyectos/{fileName}";
+
+                await _proyectoService.ActualizarImagenAsync(id, publicUrl);
+
+                return Ok(new { url = publicUrl });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
-
-        if (string.IsNullOrEmpty(secretKey))
-            return StatusCode(500, "Error de configuración: Supabase Secret Key no encontrada.");
-
-        string fileName = $"proyecto_{id}_{DateTime.UtcNow.Ticks}.jpg";
-        string storageUrl = $"{supabaseUrl}/storage/v1/object/proyectos/{fileName}";
-
-        using var httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.Add("apikey", secretKey);
-        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {secretKey}");
-
-        using var stream = file.OpenReadStream();
-        var content = new StreamContent(stream);
-        content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType ?? "image/jpeg");
-
-        var response = await httpClient.PostAsync(storageUrl, content);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            var error = await response.Content.ReadAsStringAsync();
-            return StatusCode((int)response.StatusCode, $"Error subiendo a Supabase: {error}");
-        }
-
-        string publicUrl = $"{supabaseUrl}/storage/v1/object/public/proyectos/{fileName}";
-
-        await _proyectoService.ActualizarImagenAsync(id, publicUrl);
-
-        return Ok(new { url = publicUrl });
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(500, $"Error interno: {ex.Message}");
-    }
-}
     }
 }

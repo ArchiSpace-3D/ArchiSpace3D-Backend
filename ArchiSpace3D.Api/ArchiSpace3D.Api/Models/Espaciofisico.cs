@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 namespace ArchiSpace3D.Api.Models;
 
 [Table("espaciofisico")]
-[Index("Idproyecto", Name = "espaciofisico_idproyecto_key", IsUnique = true)]
 public partial class Espaciofisico
 {
     [Key]
@@ -36,7 +35,7 @@ public partial class Espaciofisico
     public decimal? Altoaproximado { get; set; }
 
     [Column("puntosreferencia", TypeName = "jsonb")]
-    public string Puntosreferencia { get; set; } = null!;
+    public string Puntosreferencia { get; set; } = "[]";
 
     [Column("orientacionazimuth")]
     [Precision(10, 2)]
@@ -48,6 +47,6 @@ public partial class Espaciofisico
     [JsonIgnore]
     [ValidateNever]
     [ForeignKey("Idproyecto")]
-    [InverseProperty("Espaciofisico")]
+    [InverseProperty("Espaciofisicos")]
     public virtual Proyecto IdproyectoNavigation { get; set; } = null!;
 }

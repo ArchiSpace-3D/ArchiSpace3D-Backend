@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Data;
+using ArchiSpace3D.Api.Data;
 using ArchiSpace3D.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,10 +29,23 @@ namespace ArchiSpace3D.Api.Dao
 
         public async Task<Espaciofisico?> GetByProyectoAsync(int idProyecto)
         {
-            
+            var todos = await _context.Espaciofisicos
+                .AsNoTracking()
+                .Where(e => e.Idproyecto == idProyecto)
+                .ToListAsync();
+
+            return todos.FirstOrDefault(e => e.Descripcion == "__PLANO_CAD__")
+                ?? todos.FirstOrDefault(e => !string.IsNullOrWhiteSpace(e.Puntosreferencia) && e.Puntosreferencia.TrimStart().StartsWith("{"))
+                ?? todos.FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<Espaciofisico>> GetListByProyectoAsync(int idProyecto)
+        {
             return await _context.Espaciofisicos
                 .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.Idproyecto == idProyecto);
+                .Where(e => e.Idproyecto == idProyecto && e.Descripcion != "__PLANO_CAD__")
+                .OrderByDescending(e => e.Idespaciofisico)
+                .ToListAsync();
         }
 
         public async Task<bool> ExistsByProyectoAsync(int idProyecto)
@@ -44,7 +57,12 @@ namespace ArchiSpace3D.Api.Dao
 
         public async Task<Espaciofisico> CreateAsync(Espaciofisico espacio)
         {
-            espacio.Fechacaptura ??= DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+            espacio.Fechacaptura = espacio.Fechacaptura.HasValue
+                ? DateTime.SpecifyKind(espacio.Fechacaptura.Value, DateTimeKind.Unspecified)
+                : DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+
+            if (string.IsNullOrWhiteSpace(espacio.Puntosreferencia))
+                espacio.Puntosreferencia = "[]";
 
             _context.Espaciofisicos.Add(espacio);
             await _context.SaveChangesAsync();
@@ -65,9 +83,11 @@ namespace ArchiSpace3D.Api.Dao
             existente.Anchoaproximado = espacio.Anchoaproximado;
             existente.Largoaproximado = espacio.Largoaproximado;
             existente.Altoaproximado = espacio.Altoaproximado;
-            existente.Puntosreferencia = espacio.Puntosreferencia;
+            if (!string.IsNullOrWhiteSpace(espacio.Puntosreferencia))
+                existente.Puntosreferencia = espacio.Puntosreferencia;
             existente.Orientacionazimuth = espacio.Orientacionazimuth;
-            existente.Fechacaptura = espacio.Fechacaptura;
+            if (espacio.Fechacaptura.HasValue)
+                existente.Fechacaptura = DateTime.SpecifyKind(espacio.Fechacaptura.Value, DateTimeKind.Unspecified);
 
             await _context.SaveChangesAsync();
             return true;

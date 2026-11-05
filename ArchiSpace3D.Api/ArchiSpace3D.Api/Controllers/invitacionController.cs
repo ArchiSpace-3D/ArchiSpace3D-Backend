@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Models;
+using ArchiSpace3D.Api.Models;
 using ArchiSpace3D.Api.Service;
 using ArchiSpace3D.Api.Util;
 using Microsoft.AspNetCore.Authorization;
@@ -32,24 +32,16 @@ namespace ArchiSpace3D.Api.Controllers
             return acceso == false ? Forbid() : null;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            return Ok(await _service.GetAllAsync());
-        }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var invitacion = await _service.GetByIdAsync(id);
-            return invitacion is null ? NotFound() : Ok(invitacion);
-        }
+            var inv = await _service.GetByIdAsync(id);
+            if (inv is null) return NotFound();
 
-        [HttpGet("codigo/{codigo}")]
-        public async Task<IActionResult> GetByCodigo(string codigo)
-        {
-            var invitacion = await _service.GetByCodigoAsync(codigo);
-            return invitacion is null ? NotFound() : Ok(invitacion);
+            var noPertenece = await ValidarPertenenciaProyectoAsync(inv.Idproyecto);
+            if (noPertenece is not null) return noPertenece;
+
+            return Ok(inv);
         }
 
         [HttpGet("proyecto/{idProyecto}")]
@@ -67,7 +59,8 @@ namespace ArchiSpace3D.Api.Controllers
             var idUsuario = User.GetIdUsuario();
             var rol = User.GetRol();
 
-            if (rol != "Arquitecto" || idArquitecto != idUsuario) return Forbid();
+            if (!string.Equals(rol, "Arquitecto", StringComparison.OrdinalIgnoreCase) || idArquitecto != idUsuario)
+                return Forbid();
 
             return Ok(await _service.GetByArquitectoAsync(idArquitecto));
         }
@@ -78,6 +71,9 @@ namespace ArchiSpace3D.Api.Controllers
         {
             var noPertenece = await ValidarPertenenciaProyectoAsync(invitacion.Idproyecto);
             if (noPertenece is not null) return noPertenece;
+
+            if (invitacion.Idarquitecto <= 0)
+                invitacion.Idarquitecto = User.GetIdUsuario();
 
             try
             {
@@ -92,11 +88,14 @@ namespace ArchiSpace3D.Api.Controllers
 
         [Authorize(Roles = "Cliente")]
         [HttpPut("codigo/{codigo}/usar")]
-        public async Task<IActionResult> Usar(string codigo, [FromBody] UsarInvitacionRequest request)
+        public async Task<IActionResult> Usar(string codigo, [FromBody] UsarInvitacionRequest? request)
         {
+            var idCliente = User.GetIdUsuario();
+            if (idCliente <= 0 && request != null) idCliente = request.IdClienteUsado;
+
             try
             {
-                var usada = await _service.UsarInvitacionAsync(codigo, request.IdClienteUsado);
+                var usada = await _service.UsarInvitacionAsync(codigo, idCliente);
                 return usada ? NoContent() : NotFound();
             }
             catch (InvalidOperationException ex)

@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Models;
+using ArchiSpace3D.Api.Models;
 using ArchiSpace3D.Api.Service;
 using ArchiSpace3D.Api.Util;
 using Microsoft.AspNetCore.Authorization;
@@ -30,14 +30,27 @@ namespace ArchiSpace3D.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _service.GetAllAsync());
+            var idUsuario = User.GetIdUsuario();
+            var rol = User.GetRol();
+            var proyectos = string.Equals(rol, "Arquitecto", StringComparison.OrdinalIgnoreCase)
+                ? await _proyectoService.GetByArquitectoAsync(idUsuario)
+                : await _proyectoService.GetByClienteAsync(idUsuario);
+
+            var ids = proyectos.Select(p => p.Idproyecto).ToHashSet();
+            var todos = await _service.GetAllAsync();
+            return Ok(todos.Where(e => ids.Contains(e.Idproyecto)));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var espacio = await _service.GetByIdAsync(id);
-            return espacio is null ? NotFound() : Ok(espacio);
+            if (espacio is null) return NotFound();
+
+            var noPertenece = await ValidarPertenenciaProyectoAsync(espacio.Idproyecto);
+            if (noPertenece is not null) return noPertenece;
+
+            return Ok(espacio);
         }
 
         [HttpGet("proyecto/{idProyecto}")]
@@ -48,6 +61,16 @@ namespace ArchiSpace3D.Api.Controllers
 
             var espacio = await _service.GetByProyectoAsync(idProyecto);
             return espacio is null ? NotFound() : Ok(espacio);
+        }
+
+        [HttpGet("proyecto/{idProyecto}/lista")]
+        public async Task<IActionResult> GetListaByProyecto(int idProyecto)
+        {
+            var noPertenece = await ValidarPertenenciaProyectoAsync(idProyecto);
+            if (noPertenece is not null) return noPertenece;
+
+            var espacios = await _service.GetListByProyectoAsync(idProyecto);
+            return Ok(espacios);
         }
 
         [Authorize(Roles = "Arquitecto")]
@@ -74,9 +97,13 @@ namespace ArchiSpace3D.Api.Controllers
         {
             if (id != espacio.Idespaciofisico) return BadRequest("El id de la URL no coincide con el del body.");
 
-            var noPertenece = await ValidarPertenenciaProyectoAsync(espacio.Idproyecto);
+            var existente = await _service.GetByIdAsync(id);
+            if (existente is null) return NotFound();
+
+            var noPertenece = await ValidarPertenenciaProyectoAsync(existente.Idproyecto);
             if (noPertenece is not null) return noPertenece;
 
+            espacio.Idproyecto = existente.Idproyecto;
             var actualizado = await _service.ActualizarAsync(espacio);
             return actualizado ? NoContent() : NotFound();
         }

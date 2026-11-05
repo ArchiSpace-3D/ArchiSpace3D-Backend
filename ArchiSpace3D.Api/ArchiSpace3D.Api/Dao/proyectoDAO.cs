@@ -1,13 +1,11 @@
 using ArchiSpace3D.Api.Dao;
 using ArchiSpace3D.Api.Data;
 using ArchiSpace3D.Api.Models;
-using ArchiSpace3D.Api.Service;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace ArchiSpace3D.Api.Dao
 {
-    public class proyectoDAO:proyectoDAOImpl
+    public class proyectoDAO : proyectoDAOImpl
     {
         private readonly ArchiSpaceContext _context;
 
@@ -19,16 +17,17 @@ namespace ArchiSpace3D.Api.Dao
         public async Task<IEnumerable<Proyecto>> GetAllAsync()
         {
             return await _context.Proyectos
-            .AsNoTracking()
-            .ToListAsync();
+                .AsNoTracking()
+                .ToListAsync();
         }
 
-        public async Task<Proyecto?> GetByIdAsync(int id) 
+        public async Task<Proyecto?> GetByIdAsync(int id)
         {
             return await _context.Proyectos
-            .AsNoTracking()
-            .FirstOrDefaultAsync(p => p.Idproyecto == id);
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Idproyecto == id);
         }
+
         public async Task<IEnumerable<Proyecto>> GetByClienteAsync(int id)
         {
             return await _context.Proyectos
@@ -36,20 +35,20 @@ namespace ArchiSpace3D.Api.Dao
                 .Where(p => p.Idcliente == id)
                 .ToListAsync();
         }
+
         public async Task<IEnumerable<Proyecto>> GetByArquitectoAsync(int id)
         {
             return await _context.Proyectos
                 .AsNoTracking()
-                .Where(P => P.Idarquitecto == id)
+                .Where(p => p.Idarquitecto == id)
                 .ToListAsync();
-               
         }
 
         public async Task<bool> ExistByCodigoSalaActivaAsync(string codigoSala)
         {
             return await _context.Proyectos
-            .AsNoTracking()
-            .AnyAsync(p => p.Codigosalaactiva == codigoSala);
+                .AsNoTracking()
+                .AnyAsync(p => p.Codigosalaactiva == codigoSala);
         }
 
         public async Task<Proyecto> CreateAsync(Proyecto proyecto)
@@ -59,12 +58,12 @@ namespace ArchiSpace3D.Api.Dao
             _context.Proyectos.Add(proyecto);
             await _context.SaveChangesAsync();
             return proyecto;
-
         }
+
         public async Task<bool> UpdateAsync(Proyecto proyecto)
         {
             var existente = await _context.Proyectos.FirstOrDefaultAsync(p => p.Idproyecto == proyecto.Idproyecto);
-            if(existente is null)
+            if (existente is null)
             {
                 return false;
             }
@@ -74,6 +73,14 @@ namespace ArchiSpace3D.Api.Dao
             existente.Ubicacion = proyecto.Ubicacion;
             existente.Presupuesto = proyecto.Presupuesto;
             existente.Estado = proyecto.Estado;
+            if (proyecto.Idcliente.HasValue)
+            {
+                existente.Idcliente = proyecto.Idcliente.Value <= 0 ? null : proyecto.Idcliente;
+            }
+            if (!string.IsNullOrEmpty(proyecto.Imagenurl))
+            {
+                existente.Imagenurl = proyecto.Imagenurl;
+            }
             existente.Fechaactualizacion = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
 
             await _context.SaveChangesAsync();
@@ -83,14 +90,14 @@ namespace ArchiSpace3D.Api.Dao
         public async Task<bool> DeleteAsync(int id)
         {
             var existente = await _context.Proyectos.FirstOrDefaultAsync(p => p.Idproyecto == id);
-
             if (existente is null)
             {
                 return false;
             }
 
-            
-            
+            var sugerencias = _context.Sugerencias.Where(s => s.Idproyecto == id);
+            _context.Sugerencias.RemoveRange(sugerencias);
+
             var mediciones = _context.Medicions.Where(m => m.Idproyecto == id);
             _context.Medicions.RemoveRange(mediciones);
 
@@ -118,6 +125,7 @@ namespace ArchiSpace3D.Api.Dao
             await _context.SaveChangesAsync();
             return true;
         }
+
         public async Task<bool> ActivarSalaAsync(int idProyecto, string codigo)
         {
             var existente = await _context.Proyectos.FirstOrDefaultAsync(p => p.Idproyecto == idProyecto);
@@ -140,8 +148,5 @@ namespace ArchiSpace3D.Api.Dao
             await _context.SaveChangesAsync();
             return true;
         }
-
     }
-
 }
-

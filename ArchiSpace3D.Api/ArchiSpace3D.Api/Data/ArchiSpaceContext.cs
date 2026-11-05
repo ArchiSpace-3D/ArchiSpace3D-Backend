@@ -57,7 +57,7 @@ public partial class ArchiSpaceContext : DbContext
             entity.Property(e => e.Fechacaptura).HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.Puntosreferencia).HasDefaultValueSql("'[]'::jsonb");
 
-            entity.HasOne(d => d.IdproyectoNavigation).WithOne(p => p.Espaciofisico)
+            entity.HasOne(d => d.IdproyectoNavigation).WithMany(p => p.Espaciofisicos)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("espaciofisico_idproyecto_fkey");
         });
@@ -156,6 +156,7 @@ public partial class ArchiSpaceContext : DbContext
 
             entity.Property(e => e.Esactual).HasDefaultValue(false);
             entity.Property(e => e.Fechacreacion).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.Puntosreferencia).HasDefaultValueSql("'{}'::jsonb");
 
             entity.HasOne(d => d.IdproyectoNavigation).WithMany(p => p.Versiondisenos)
                 .OnDelete(DeleteBehavior.ClientSetNull)

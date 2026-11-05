@@ -29,9 +29,34 @@ namespace ArchiSpace3D.Api.Dao
 
         public async Task<Invitacion?> GetByCodigoAsync(string codigo)
         {
-            
-            return await _context.Invitacions
-                .FirstOrDefaultAsync(i => i.Codigo == codigo);
+            if (string.IsNullOrWhiteSpace(codigo)) return null;
+            var norm = codigo.Trim().ToUpperInvariant();
+            var inv = await _context.Invitacions
+                .FirstOrDefaultAsync(i => i.Codigo.ToUpper() == norm);
+
+            if (inv != null) return inv;
+
+            // Compatibilidad con salas activadas con código SALA-XXXXXX sin fila en invitacion
+            var proy = await _context.Proyectos
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Codigosalaactiva != null && p.Codigosalaactiva.ToUpper() == norm);
+
+            if (proy != null && proy.Idarquitecto.HasValue && proy.Idarquitecto.Value > 0)
+            {
+                var autoInv = new Invitacion
+                {
+                    Idproyecto = proy.Idproyecto,
+                    Idarquitecto = proy.Idarquitecto.Value,
+                    Codigo = proy.Codigosalaactiva!,
+                    Fechacreacion = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified),
+                    Usada = false
+                };
+                _context.Invitacions.Add(autoInv);
+                await _context.SaveChangesAsync();
+                return autoInv;
+            }
+
+            return null;
         }
 
         public async Task<IEnumerable<Invitacion>> GetByProyectoAsync(int idProyecto)
@@ -52,23 +77,35 @@ namespace ArchiSpace3D.Api.Dao
 
         public async Task<bool> ExistsByCodigoAsync(string codigo)
         {
+            if (string.IsNullOrWhiteSpace(codigo)) return false;
+            var norm = codigo.Trim().ToUpperInvariant();
             return await _context.Invitacions
                 .AsNoTracking()
-                .AnyAsync(i => i.Codigo == codigo);
+                .AnyAsync(i => i.Codigo.ToUpper() == norm);
         }
 
         public async Task<Invitacion> CreateAsync(Invitacion invitacion)
         {
+            invitacion.Codigo = invitacion.Codigo.Trim().ToUpperInvariant();
             invitacion.Fechacreacion = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
-            
+
             if (invitacion.Fechaexpiracion.HasValue)
             {
                 invitacion.Fechaexpiracion = DateTime.SpecifyKind(invitacion.Fechaexpiracion.Value, DateTimeKind.Unspecified);
             }
-            
+
             invitacion.Usada ??= false;
 
             _context.Invitacions.Add(invitacion);
+
+            var proyecto = await _context.Proyectos.FirstOrDefaultAsync(p => p.Idproyecto == invitacion.Idproyecto);
+            if (proyecto != null)
+            {
+                proyecto.Codigosalaactiva = invitacion.Codigo;
+                proyecto.Fechaaperturasala ??= invitacion.Fechacreacion;
+                proyecto.Fechaactualizacion = invitacion.Fechacreacion;
+            }
+
             await _context.SaveChangesAsync();
             return invitacion;
         }
@@ -88,10 +125,11 @@ namespace ArchiSpace3D.Api.Dao
 
             var proyecto = await _context.Proyectos
                 .FirstOrDefaultAsync(p => p.Idproyecto == existente.Idproyecto);
-            
+
             if (proyecto != null)
             {
                 proyecto.Idcliente = idClienteUsado;
+                proyecto.Fechaactualizacion = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
             }
 
             await _context.SaveChangesAsync();

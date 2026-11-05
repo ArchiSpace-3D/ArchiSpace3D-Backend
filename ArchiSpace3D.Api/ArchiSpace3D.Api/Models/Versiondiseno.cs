@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -27,6 +27,9 @@ public partial class Versiondiseno
 
     [Column("fechacreacion", TypeName = "timestamp without time zone")]
     public DateTime? Fechacreacion { get; set; }
+
+    [Column("puntosreferencia", TypeName = "jsonb")]
+    public string? Puntosreferencia { get; set; }
 
     [JsonIgnore]
     [ValidateNever]

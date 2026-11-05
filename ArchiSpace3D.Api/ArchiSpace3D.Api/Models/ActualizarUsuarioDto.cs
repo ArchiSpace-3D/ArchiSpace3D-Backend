@@ -11,9 +11,8 @@ namespace ArchiSpace3D.Api.Models
         [StringLength(100)]
         public string Nombre { get; set; } = null!;
 
-        [Required]
         [StringLength(100)]
-        public string Apellido { get; set; } = null!;
+        public string? Apellido { get; set; } = "";
 
         [StringLength(20)]
         public string? Telefono { get; set; }
@@ -29,5 +28,7 @@ namespace ArchiSpace3D.Api.Models
 
         [StringLength(1024)]
         public string? Avatarurl { get; set; }
+
+        public bool? Activo { get; set; }
     }
 }

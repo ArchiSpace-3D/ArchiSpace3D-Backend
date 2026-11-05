@@ -1,4 +1,4 @@
-﻿using ArchiSpace3D.Api.Dao;
+using ArchiSpace3D.Api.Dao;
 using ArchiSpace3D.Api.Models;
 
 namespace ArchiSpace3D.Api.Service
@@ -38,6 +38,8 @@ namespace ArchiSpace3D.Api.Service
 
             return creada;
         }
+
+        public async Task<bool> ActualizarAsync(Versiondiseno version) => await _dao.UpdateAsync(version);
 
         public async Task<bool> MarcarComoActualAsync(int id, int idProyecto)
         {
